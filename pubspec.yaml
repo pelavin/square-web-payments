@@ -1,7 +1,10 @@
 name: square_web_payments
-description: "A new Flutter package project."
+description: An open source Flutter package for integrating the Square Web Payments SDK.
 version: 0.0.1
 repository: https://github.com/rpelavin/square-web-payments
+
+platforms:
+  web:
 
 environment:
   sdk: ^3.5.1
