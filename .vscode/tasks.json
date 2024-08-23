@@ -1,0 +1,34 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "flutter",
+      "command": "flutter",
+      "args": [
+        "run",
+        "-d",
+        "web-server"
+      ],
+      "problemMatcher": [],
+      "label": "flutter: flutter run -d web-server",
+      "options": {
+        "cwd": "${workspaceFolder}/widgetbook"
+      }
+    },
+    {
+      "type": "flutter",
+      "command": "flutter",
+      "args": [
+        "run",
+        "-d",
+        "web-server",
+        "--release"
+      ],
+      "problemMatcher": [],
+      "label": "flutter: flutter run -d web-server --release",
+      "options": {
+        "cwd": "${workspaceFolder}/widgetbook"
+      }
+    }
+  ]
+}
