@@ -1,4 +1,4 @@
-name: square_web_payments_widgetbook
+name: square_web_payments_example
 description: A Widgetbook Flutter app for demonstrating the square_web_payments package.
 publish_to: 'none'
 version: 0.1.0

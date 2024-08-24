@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:square_web_payments/square_web_payments.dart';
-import 'package:square_web_payments_widgetbook/views/payment_view.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
+
+import 'views/payment_view.dart';
 
 @widgetbook.UseCase(name: 'Default', type: CardPayment)
 Widget build(BuildContext context) => CardPayment(
