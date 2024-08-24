@@ -2,22 +2,24 @@ import 'dart:js_interop';
 
 import 'package:flutter/widgets.dart';
 
-import 'interop.dart' as interop;
+import 'interop/square.dart';
+import 'interop/token_result.dart';
 import 'payment_method.dart';
 
 class CardPayment extends StatelessWidget {
   final String applicationId;
   final String locationId;
-  final Widget placeholder;
+  final Widget Function(Widget? view, Future<TokenResult> Function() tokenize)
+      builder;
 
   const CardPayment(
       {super.key,
       required this.applicationId,
       required this.locationId,
-      required this.placeholder});
+      required this.builder});
 
   @override
   Widget build(BuildContext context) => PaymentMethod(
-      future: interop.square.payments(applicationId, locationId).card().toDart,
-      placeholder: placeholder);
+      future: square.payments(applicationId, locationId).card().toDart,
+      builder: builder);
 }
