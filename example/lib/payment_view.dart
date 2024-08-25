@@ -5,10 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:square_web_payments/square_web_payments.dart';
 
 class PaymentView extends StatefulWidget {
-  final Widget? view;
-  final Future<TokenResult> Function() tokenize;
+  final PaymentMethodView? view;
 
-  const PaymentView({super.key, required this.view, required this.tokenize});
+  const PaymentView({super.key, required this.view});
 
   @override
   State<StatefulWidget> createState() => _PaymentViewState();
@@ -56,8 +55,9 @@ class _PaymentViewState extends State<PaymentView> {
       tokenResult = null;
       error = null;
     });
-    widget
+    widget.view?.paymentMethod
         .tokenize()
+        .toDart
         .then((tokenResult) => setState(() => this.tokenResult = tokenResult))
         .catchError((error) => setState(() => this.error = error as Error));
   }

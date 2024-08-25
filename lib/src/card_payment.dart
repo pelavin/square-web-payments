@@ -3,14 +3,13 @@ import 'dart:js_interop';
 import 'package:flutter/widgets.dart';
 
 import 'interop/square.dart';
-import 'interop/token_result.dart';
 import 'payment_method.dart';
+import 'payment_method_view.dart';
 
 class CardPayment extends StatelessWidget {
   final String applicationId;
   final String locationId;
-  final Widget Function(Widget? view, Future<TokenResult> Function() tokenize)
-      builder;
+  final Widget Function(PaymentMethodView? view) builder;
 
   const CardPayment(
       {super.key,

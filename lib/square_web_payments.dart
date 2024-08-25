@@ -8,3 +8,4 @@ export 'src/interop/token_error_details.dart' show TokenErrorDetails;
 export 'src/interop/token_result.dart' show TokenResult;
 export 'src/card_payment.dart' show CardPayment;
 export 'src/gift_card_payment.dart' show GiftCardPayment;
+export 'src/payment_method_view.dart' show PaymentMethodView;
