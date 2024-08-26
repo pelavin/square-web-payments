@@ -4,13 +4,15 @@ import 'package:web/web.dart';
 
 import 'error.dart';
 import 'token_result.dart';
+import 'tokenizable.dart';
 
 /// https://developer.squareup.com/reference/sdks/web/payments/objects/Card
 /// https://developer.squareup.com/reference/sdks/web/payments/objects/GiftCard
-class PaymentMethod {
+class PaymentMethod implements Tokenizable {
   final Future Function(HTMLDivElement element) attach;
   final Future Function() destroy;
   final Future Function() detach;
+  @override
   final Future<TokenResult> Function() tokenize;
 
   const PaymentMethod(
