@@ -22,31 +22,58 @@ class WidgetbookApp extends StatelessWidget {
             builder: (context) => CardPayment(
                 applicationId: applicationId,
                 locationId: locationId,
-                builder: _buildPayment)),
+                builder: (view) => _buildPayment(context, view))),
         WidgetbookUseCase(
             name: "GiftCardPayment",
             builder: (context) => GiftCardPayment(
                 applicationId: applicationId,
                 locationId: locationId,
-                builder: _buildPayment))
+                builder: (view) => _buildPayment(context, view))),
       ]);
 
-  Widget _buildPayment(PaymentMethodView? view) => Container(
-      constraints: const BoxConstraints.expand(),
-      decoration: const BoxDecoration(color: Colors.white),
-      padding: const EdgeInsets.all(8),
-      child: view == null
-          ? const Center(child: CircularProgressIndicator())
-          : Column(children: [
-              view,
-              TextButton(
-                  onPressed: () async {
-                    final tokenResult =
-                        await view.paymentMethod.tokenize().toDart;
-                    debugPrint(jsonEncode(tokenResult.toJson()));
-                  },
-                  child: const Text('Tokenize'))
-            ]));
+  Widget _buildPayment(BuildContext context, PaymentMethodView? view) =>
+      Container(
+          constraints: const BoxConstraints.expand(),
+          decoration: const BoxDecoration(color: Colors.white),
+          padding: const EdgeInsets.all(8),
+          child: view == null
+              ? const Center(child: CircularProgressIndicator())
+              : Column(children: [
+                  view,
+                  TextButton(
+                      onPressed: () => _tokenize(context, view),
+                      child: const Text('Tokenize'))
+                ]));
+
+  void _tokenize(BuildContext context, PaymentMethodView view) => showDialog(
+      context: context,
+      builder: (BuildContext context) => FutureBuilder(
+          future: view.paymentMethod.tokenize().toDart,
+          builder: (context, snapshot) {
+            String? title;
+            Map<String, dynamic>? content;
+            if (snapshot.hasData) {
+              title = 'TokenResult';
+              content = snapshot.data!.toJson();
+            } else if (snapshot.hasError) {
+              title = 'Error';
+              content = (snapshot.error as Error).toJson();
+            }
+
+            return AlertDialog(
+                title: title != null
+                    ? Text(title)
+                    : const Center(child: CircularProgressIndicator()),
+                content: content != null
+                    ? SelectableText(
+                        const JsonEncoder.withIndent('  ').convert(content))
+                    : null);
+          }));
+}
+
+extension on Error {
+  Map<String, dynamic> toJson() =>
+      {'name': name, 'message': message, 'stack': stack};
 }
 
 extension on TokenResult {
