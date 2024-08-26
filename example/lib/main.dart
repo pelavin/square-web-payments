@@ -39,20 +39,21 @@ class WidgetbookApp extends StatelessWidget {
           : Column(children: [
               view,
               TextButton(
-                  onPressed: () => _tokenize(context, view),
+                  onPressed: () => _tokenize(context, view.paymentMethod),
                   child: const Text('Tokenize'))
             ]));
 
-  void _tokenize(BuildContext context, PaymentView view) => showDialog(
-      context: context,
-      builder: (BuildContext context) => FutureBuilder(
-          future: view.tokenize(),
-          builder: (context, snapshot) => AlertDialog(
-              title: snapshot.connectionState == ConnectionState.done
-                  ? Text(snapshot.hasData ? 'TokenResult' : 'Error')
-                  : const Center(child: CircularProgressIndicator()),
-              content: snapshot.connectionState == ConnectionState.done
-                  ? SelectableText(const JsonEncoder.withIndent('  ')
-                      .convert(snapshot.data ?? snapshot.error))
-                  : null)));
+  void _tokenize(BuildContext context, PaymentMethod paymentMethod) =>
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => FutureBuilder(
+              future: paymentMethod.tokenize(),
+              builder: (context, snapshot) => AlertDialog(
+                  title: snapshot.connectionState == ConnectionState.done
+                      ? Text(snapshot.hasData ? 'TokenResult' : 'Error')
+                      : const Center(child: CircularProgressIndicator()),
+                  content: snapshot.connectionState == ConnectionState.done
+                      ? SelectableText(const JsonEncoder.withIndent('  ')
+                          .convert(snapshot.data ?? snapshot.error))
+                      : null)));
 }

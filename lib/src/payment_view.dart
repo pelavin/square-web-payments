@@ -3,23 +3,16 @@ import 'dart:js_interop';
 import 'package:flutter/widgets.dart';
 import 'package:web/web.dart';
 
-import 'interop/error.dart' as interop;
-import 'interop/payment_method.dart' as interop;
-
-import 'models/token_result.dart';
+import 'models/payment_method.dart';
 import 'models/error.dart';
 
 class PaymentView extends StatefulWidget {
-  final interop.PaymentMethod paymentMethod;
+  final PaymentMethod paymentMethod;
 
   const PaymentView({super.key, required this.paymentMethod});
 
   @override
   State<StatefulWidget> createState() => _PaymentViewState();
-
-  Future<TokenResult> tokenize() =>
-      paymentMethod.tokenize().toDart.then((tokenResult) => tokenResult.toDart,
-          onError: (error) => throw (error as interop.Error).toDart);
 }
 
 class _PaymentViewState extends State<PaymentView> {
@@ -38,7 +31,7 @@ class _PaymentViewState extends State<PaymentView> {
     super.dispose();
     if (attached) {
       try {
-        await widget.paymentMethod.detach().toDart;
+        await widget.paymentMethod.detach();
       } catch (error) {
         error as Error;
         if (error.name != 'PaymentMethodAlreadyDestroyedError') {
@@ -60,7 +53,6 @@ class _PaymentViewState extends State<PaymentView> {
           setState(() => attaching = true);
           widget.paymentMethod
               .attach(element)
-              .toDart
               .catchError((error) => throw error as Error)
               .then((_) => setState(() => attached = true))
               .whenComplete(() => setState(() => attaching = false));
