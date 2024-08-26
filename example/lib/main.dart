@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:square_web_payments/square_web_payments.dart';
@@ -17,9 +18,18 @@ class WidgetbookApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Widgetbook.material(directories: [
         WidgetbookUseCase(
-            name: "Card", builder: (context) => _buildPayment(payments.card())),
+            name: 'Apple Pay',
+            builder: (context) {
+              final PaymentRequest paymentRequest = payments.paymentRequest(
+                  const PaymentRequestOptions(
+                      countryCode: 'US', currencyCode: 'USD'));
+              print(inspect(paymentRequest));
+              return const Placeholder();
+            }),
         WidgetbookUseCase(
-            name: "GiftCard",
+            name: 'Card', builder: (context) => _buildPayment(payments.card())),
+        WidgetbookUseCase(
+            name: 'Gift Card',
             builder: (context) => _buildPayment(payments.giftCard()))
       ]);
 
