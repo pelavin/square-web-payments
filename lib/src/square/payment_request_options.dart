@@ -9,13 +9,17 @@ class PaymentRequestOptions {
   final String countryCode;
   @JSExport()
   final String currencyCode;
-  @JSExport()
+
+  @JSExport('_total')
   final LineItem total;
 
   const PaymentRequestOptions(
       {required this.countryCode,
       required this.currencyCode,
       required this.total});
+
+  @JSExport('total')
+  JSLineItem get jsTotal => createJSInteropWrapper(total) as JSLineItem;
 }
 
 extension type JSPaymentRequestOptions._(JSObject _) implements JSObject {

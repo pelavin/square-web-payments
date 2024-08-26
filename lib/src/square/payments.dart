@@ -25,15 +25,15 @@ extension type JSPayments._(JSObject _) implements JSObject {
   external JSPromise<JSPaymentMethod> giftCard();
   external JSObject paymentRequest(JSPaymentRequestOptions options);
   Payments get toDart => Payments(
-      applePay: (JSObject paymentRequest) =>
-          applePay(paymentRequest)
-              .toDart
-              .then((applePay) => applePay.toDart,
-                  onError: (error) => throw (error as JSError).toDart),
+      applePay: (JSObject paymentRequest) => applePay(paymentRequest)
+          .toDart
+          .then((applePay) => applePay.toDart,
+              onError: (error) => throw (error as JSError).toDart),
       card: () => card().toDart.then((paymentMethod) => paymentMethod.toDart,
           onError: (error) => throw (error as JSError).toDart),
-      giftCard: () => giftCard().toDart.then((paymentMethod) => paymentMethod.toDart,
+      giftCard: () => giftCard().toDart.then(
+          (paymentMethod) => paymentMethod.toDart,
           onError: (error) => throw (error as JSError).toDart),
-      paymentRequest: (PaymentRequestOptions options) =>
-          paymentRequest(createJSInteropWrapper(options) as JSPaymentRequestOptions));
+      paymentRequest: (PaymentRequestOptions options) => paymentRequest(
+          createJSInteropWrapper(options) as JSPaymentRequestOptions));
 }
