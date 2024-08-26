@@ -9,20 +9,20 @@ import 'interop/payment_method.dart' as interop;
 import 'models/token_result.dart';
 import 'models/error.dart';
 
-class PaymentMethodView extends StatefulWidget {
+class PaymentView extends StatefulWidget {
   final interop.PaymentMethod paymentMethod;
 
-  const PaymentMethodView({super.key, required this.paymentMethod});
+  const PaymentView({super.key, required this.paymentMethod});
 
   @override
-  State<StatefulWidget> createState() => _PaymentMethodViewState();
+  State<StatefulWidget> createState() => _PaymentViewState();
 
   Future<TokenResult> tokenize() =>
       paymentMethod.tokenize().toDart.then((tokenResult) => tokenResult.toDart,
           onError: (error) => throw (error as interop.Error).toDart);
 }
 
-class _PaymentMethodViewState extends State<PaymentMethodView> {
+class _PaymentViewState extends State<PaymentView> {
   bool attaching = false;
   bool attached = false;
   double height = 1;

@@ -30,21 +30,20 @@ class WidgetbookApp extends StatelessWidget {
                 builder: (view) => _buildPayment(context, view))),
       ]);
 
-  Widget _buildPayment(BuildContext context, PaymentMethodView? view) =>
-      Container(
-          constraints: const BoxConstraints.expand(),
-          decoration: const BoxDecoration(color: Colors.white),
-          padding: const EdgeInsets.all(8),
-          child: view == null
-              ? const Center(child: CircularProgressIndicator())
-              : Column(children: [
-                  view,
-                  TextButton(
-                      onPressed: () => _tokenize(context, view),
-                      child: const Text('Tokenize'))
-                ]));
+  Widget _buildPayment(BuildContext context, PaymentView? view) => Container(
+      constraints: const BoxConstraints.expand(),
+      decoration: const BoxDecoration(color: Colors.white),
+      padding: const EdgeInsets.all(8),
+      child: view == null
+          ? const Center(child: CircularProgressIndicator())
+          : Column(children: [
+              view,
+              TextButton(
+                  onPressed: () => _tokenize(context, view),
+                  child: const Text('Tokenize'))
+            ]));
 
-  void _tokenize(BuildContext context, PaymentMethodView view) => showDialog(
+  void _tokenize(BuildContext context, PaymentView view) => showDialog(
       context: context,
       builder: (BuildContext context) => FutureBuilder(
           future: view.tokenize(),
