@@ -1,3 +1,5 @@
+import 'dart:js_interop';
+
 import 'card_details.dart';
 import 'gift_card_details.dart';
 
@@ -12,4 +14,11 @@ class TokenDetails {
         ...(card == null ? {} : {'card': card}),
         ...(giftCard == null ? {} : {'giftCard': giftCard})
       };
+}
+
+extension type JSTokenDetails._(JSObject _) implements JSObject {
+  external JSCardDetails? get card;
+  external JSGiftCardDetails? get giftCard;
+  TokenDetails get toDart =>
+      TokenDetails(card: card?.toDart, giftCard: giftCard?.toDart);
 }

@@ -11,3 +11,8 @@ class PaymentRequestOptions {
   const PaymentRequestOptions(
       {required this.countryCode, required this.currencyCode});
 }
+
+extension type JSPaymentRequestOptions._(JSObject _) implements JSObject {
+  external String get countryCode;
+  external String get currencyCode;
+}

@@ -3,8 +3,8 @@ import 'dart:js_interop';
 import 'package:flutter/widgets.dart';
 import 'package:web/web.dart';
 
-import 'models/payment_method.dart';
-import 'models/error.dart';
+import 'square/payment_method.dart';
+import 'square/error.dart';
 
 class PaymentMethodView extends StatefulWidget {
   final PaymentMethod paymentMethod;
