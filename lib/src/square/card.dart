@@ -10,6 +10,7 @@ import 'payment_method.dart';
 /// https://developer.squareup.com/reference/sdks/web/payments/objects/GiftCard
 class Card implements PaymentMethod {
   final Future Function(HTMLDivElement element) attach;
+  @override
   final Future Function() destroy;
   final Future Function() detach;
   @override

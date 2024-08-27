@@ -33,3 +33,5 @@
 * Moving Apple Pay button styling from html to dart
 
 ## 0.0.9
+
+* Adding inline documentation for widgets
