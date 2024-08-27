@@ -55,15 +55,11 @@ class WidgetbookApp extends StatelessWidget {
                         countryCode: 'US',
                         currencyCode: 'USD',
                         total: LineItem(amount: '1.00', label: 'Total')))),
-                (googlePay) => Column(children: [
-                      GooglePayView(
-                          googlePay: googlePay,
-                          googlePayButtonOptions: const GooglePayButtonOptions(
-                              buttonSizeMode: 'fill')),
-                      TextButton(
-                          onPressed: () => _tokenize(context, googlePay),
-                          child: const Text('Tokenize'))
-                    ]))),
+                (googlePay) => GooglePayView(
+                    googlePay: googlePay,
+                    googlePayButtonOptions:
+                        const GooglePayButtonOptions(buttonSizeMode: 'fill'),
+                    onPressed: () => _tokenize(context, googlePay)))),
       ]);
 
   Widget _buildPaymentMethod<TPaymentMethod extends PaymentMethod>(
