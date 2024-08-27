@@ -14,9 +14,7 @@ class ApplePay implements PaymentMethod {
   const ApplePay({required this.destroy, required this.tokenize});
 }
 
-extension type JSApplePay._(JSObject _) implements JSObject {
-  external JSPromise destroy();
-  external JSPromise<JSTokenResult> tokenize();
+extension type JSApplePay._(JSPaymentMethod _) implements JSPaymentMethod {
   ApplePay get toDart => ApplePay(
       destroy: () => destroy().toDart,
       tokenize: () => tokenize().toDart.then(

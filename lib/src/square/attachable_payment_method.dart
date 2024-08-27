@@ -8,7 +8,8 @@ import 'payment_method.dart';
 
 /// https://developer.squareup.com/reference/sdks/web/payments/objects/Card
 /// https://developer.squareup.com/reference/sdks/web/payments/objects/GiftCard
-class Card implements PaymentMethod {
+/// https://developer.squareup.com/reference/sdks/web/payments/objects/GooglePay
+class AttachablePaymentMethod implements PaymentMethod {
   final Future Function(HTMLDivElement element) attach;
   @override
   final Future Function() destroy;
@@ -16,19 +17,18 @@ class Card implements PaymentMethod {
   @override
   final Future<TokenResult> Function() tokenize;
 
-  const Card(
+  const AttachablePaymentMethod(
       {required this.attach,
       required this.destroy,
       required this.detach,
       required this.tokenize});
 }
 
-extension type JSPaymentMethod._(JSObject _) implements JSObject {
+extension type JSAttachablePaymentMethod._(JSPaymentMethod _)
+    implements JSPaymentMethod {
   external JSPromise attach(HTMLDivElement element);
-  external JSPromise destroy();
   external JSPromise detach();
-  external JSPromise<JSTokenResult> tokenize();
-  Card get toDart => Card(
+  AttachablePaymentMethod get toDart => AttachablePaymentMethod(
       attach: (element) => attach(element).toDart,
       destroy: () => destroy().toDart,
       detach: () => detach().toDart,

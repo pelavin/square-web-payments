@@ -4,7 +4,7 @@ export 'square/contact.dart' show Contact;
 export 'square/error.dart' show Error;
 export 'square/gift_card_details.dart' show GiftCardDetails;
 export 'square/line_item.dart' show LineItem;
-export 'square/card.dart' show Card;
+export 'square/attachable_payment_method.dart' show AttachablePaymentMethod;
 export 'square/payment_request_options.dart' show PaymentRequestOptions;
 export 'square/payments.dart' show Payments;
 export 'square/square.dart' show Square;

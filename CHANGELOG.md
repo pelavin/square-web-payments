@@ -35,3 +35,4 @@
 ## 0.0.9
 
 * Adding inline documentation for widgets
+* Adding support for Google Pay
