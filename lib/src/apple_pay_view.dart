@@ -5,17 +5,22 @@ import 'package:flutter/widgets.dart';
 import 'payment_method_view.dart';
 import 'square/apple_pay.dart';
 
+/// Renders the Apple Pay button.
 class ApplePayView extends StatelessWidget {
+  /// The [ApplePay] attached to this view.
   final ApplePay applePay;
+
+  /// Called when the Apple Pay button is tapped or otherwise activated.
   final void Function() onPressed;
 
+  /// Creates a [ApplePayView].
   const ApplePayView(
       {super.key, required this.applePay, required this.onPressed});
 
   @override
   Widget build(BuildContext context) => PaymentMethodView(
       paymentMethod: applePay,
-      onElementCreated: (element) {
+      onElementAttached: (element) {
         element.addEventListener('click', onPressed.toJS);
         element.style.height = '48px';
         element.style.width = '100%';
