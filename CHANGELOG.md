@@ -31,3 +31,5 @@
 ## 0.0.8
 
 * Moving Apple Pay button styling from html to dart
+
+## 0.0.9
