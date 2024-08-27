@@ -1,6 +1,6 @@
 import 'dart:js_interop';
 
-/// https://developer.squareup.com/reference/sdks/web/payments/objects/PaymentRequestOptions
+/// https://developer.squareup.com/reference/sdks/web/payments/objects/LineItem
 @JSExport()
 class LineItem {
   @JSExport()
