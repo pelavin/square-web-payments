@@ -5,7 +5,7 @@ import 'package:square_web_payments/square_web_payments.dart';
 void main() {
   testWidgets('finds an HtmlElementView widget', (tester) async {
     await tester.pumpWidget(CardView(
-        card: Card(
+        card: PaymentCard(
             attach: (element) => Future.error(UnimplementedError('attach')),
             destroy: () => Future.value(),
             tokenize: () => Future.error(UnimplementedError('tokenize')))));

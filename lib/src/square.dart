@@ -1,5 +1,5 @@
 export 'square/apple_pay.dart' show ApplePay;
-export 'square/card.dart' show Card;
+export 'square/payment_card.dart' show PaymentCard;
 export 'square/card_details.dart' show CardDetails;
 export 'square/contact.dart' show Contact;
 export 'square/error.dart' show Error;
