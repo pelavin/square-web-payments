@@ -18,47 +18,48 @@ class WidgetbookApp extends StatelessWidget {
   Widget build(BuildContext context) => Widgetbook.material(directories: [
         WidgetbookUseCase(
             name: 'Apple Pay',
-            builder: (context) => _buildApplePay(payments.applePay(
-                payments.paymentRequest(const PaymentRequestOptions(
-                    countryCode: 'US',
-                    currencyCode: 'USD',
-                    total: LineItem(amount: '1.00', label: 'Total')))))),
+            builder: (context) => _buildPaymentMethod(
+                payments.applePay(payments.paymentRequest(
+                    const PaymentRequestOptions(
+                        countryCode: 'US',
+                        currencyCode: 'USD',
+                        total: LineItem(amount: '1.00', label: 'Total')))),
+                (applePay) => SelectableText(
+                    const JsonEncoder.withIndent('  ').convert(applePay)))),
         WidgetbookUseCase(
             name: 'Card',
-            builder: (context) => _buildPaymentMethod(payments.card())),
+            builder: (context) => _buildPaymentMethod(
+                payments.card(), (card) => CardView(card: card))),
         WidgetbookUseCase(
             name: 'Gift Card',
-            builder: (context) => _buildPaymentMethod(payments.giftCard()))
+            builder: (context) => _buildPaymentMethod(
+                payments.giftCard(), (card) => CardView(card: card)))
       ]);
 
-  Widget _buildApplePay(Future<ApplePay> future) => Container(
-      constraints: const BoxConstraints.expand(),
-      decoration: const BoxDecoration(color: Colors.white),
-      padding: const EdgeInsets.all(8),
-      child: FutureBuilder(
-          future: future,
-          builder: (context, snapshot) =>
-              snapshot.connectionState == ConnectionState.done
-                  ? SelectableText(const JsonEncoder.withIndent('  ')
-                      .convert(snapshot.data ?? snapshot.error))
-                  : const Center(child: CircularProgressIndicator())));
+  Widget _buildPaymentMethod<TPaymentMethod extends PaymentMethod>(
+          Future<TPaymentMethod> future,
+          Widget Function(TPaymentMethod paymentMethod) builder) =>
+      Container(
+          constraints: const BoxConstraints.expand(),
+          decoration: const BoxDecoration(color: Colors.white),
+          padding: const EdgeInsets.all(8),
+          child: FutureBuilder(
+              future: future,
+              builder: (context, snapshot) =>
+                  snapshot.connectionState == ConnectionState.done
+                      ? snapshot.data != null
+                          ? Column(children: [
+                              builder(snapshot.data!),
+                              TextButton(
+                                  onPressed: () =>
+                                      _tokenize(context, snapshot.data!),
+                                  child: const Text('Tokenize'))
+                            ])
+                          : SelectableText(const JsonEncoder.withIndent('  ')
+                              .convert(snapshot.error))
+                      : const Center(child: CircularProgressIndicator())));
 
-  Widget _buildPaymentMethod(Future<PaymentMethod> future) => Container(
-      constraints: const BoxConstraints.expand(),
-      decoration: const BoxDecoration(color: Colors.white),
-      padding: const EdgeInsets.all(8),
-      child: FutureBuilder(
-          future: future,
-          builder: (context, snapshot) => snapshot.data == null
-              ? const Center(child: CircularProgressIndicator())
-              : Column(children: [
-                  PaymentMethodView(paymentMethod: snapshot.data!),
-                  TextButton(
-                      onPressed: () => _tokenize(context, snapshot.data!),
-                      child: const Text('Tokenize'))
-                ])));
-
-  void _tokenize(BuildContext context, Tokenizable tokenizable) => showDialog(
+  void _tokenize(BuildContext context, PaymentMethod tokenizable) => showDialog(
       context: context,
       builder: (BuildContext context) => FutureBuilder(
           future: tokenizable.tokenize(),
