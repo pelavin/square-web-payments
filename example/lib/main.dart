@@ -17,26 +17,54 @@ class WidgetbookApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Widgetbook.material(directories: [
         WidgetbookUseCase(
-            name: "Card", builder: (context) => _buildPayment(payments.card())),
+            name: 'Apple Pay',
+            builder: (context) => _buildPaymentMethod(
+                payments.applePay(payments.paymentRequest(
+                    const PaymentRequestOptions(
+                        countryCode: 'US',
+                        currencyCode: 'USD',
+                        total: LineItem(amount: '1.00', label: 'Total')))),
+                (applePay) => ApplePayView(
+                    applePay: applePay,
+                    onPressed: () => _tokenize(context, applePay)))),
         WidgetbookUseCase(
-            name: "GiftCard",
-            builder: (context) => _buildPayment(payments.giftCard()))
+            name: 'Card',
+            builder: (context) => _buildPaymentMethod(
+                payments.card(),
+                (card) => Column(children: [
+                      CardView(card: card),
+                      TextButton(
+                          onPressed: () => _tokenize(context, card),
+                          child: const Text('Tokenize'))
+                    ]))),
+        WidgetbookUseCase(
+            name: 'Gift Card',
+            builder: (context) => _buildPaymentMethod(
+                payments.giftCard(),
+                (card) => Column(children: [
+                      CardView(card: card),
+                      TextButton(
+                          onPressed: () => _tokenize(context, card),
+                          child: const Text('Tokenize'))
+                    ])))
       ]);
 
-  Widget _buildPayment(Future<PaymentMethod> future) => Container(
-      constraints: const BoxConstraints.expand(),
-      decoration: const BoxDecoration(color: Colors.white),
-      padding: const EdgeInsets.all(8),
-      child: FutureBuilder(
-          future: future,
-          builder: (context, snapshot) => snapshot.data == null
-              ? const Center(child: CircularProgressIndicator())
-              : Column(children: [
-                  PaymentMethodView(paymentMethod: snapshot.data!),
-                  TextButton(
-                      onPressed: () => _tokenize(context, snapshot.data!),
-                      child: const Text('Tokenize'))
-                ])));
+  Widget _buildPaymentMethod<TPaymentMethod extends PaymentMethod>(
+          Future<TPaymentMethod> future,
+          Widget Function(TPaymentMethod paymentMethod) builder) =>
+      Container(
+          constraints: const BoxConstraints.expand(),
+          decoration: const BoxDecoration(color: Colors.white),
+          padding: const EdgeInsets.all(8),
+          child: FutureBuilder(
+              future: future,
+              builder: (context, snapshot) =>
+                  snapshot.connectionState == ConnectionState.done
+                      ? snapshot.data != null
+                          ? builder(snapshot.data!)
+                          : SelectableText(const JsonEncoder.withIndent('  ')
+                              .convert(snapshot.error))
+                      : const Center(child: CircularProgressIndicator())));
 
   void _tokenize(BuildContext context, PaymentMethod paymentMethod) =>
       showDialog(
