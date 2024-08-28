@@ -80,16 +80,15 @@ class WidgetbookApp extends StatelessWidget {
                       : const Center(child: CircularProgressIndicator())));
 
   void _tokenize(BuildContext context, PaymentMethod paymentMethod) =>
+      paymentMethod.tokenize().then(
+          (tokenResult) => _showDialog(context, 'TokenResult', tokenResult),
+          onError: (error) => _showDialog(context, 'Error', error));
+
+  void _showDialog(BuildContext context, String title, Object content) =>
       showDialog(
           context: context,
-          builder: (BuildContext context) => FutureBuilder(
-              future: paymentMethod.tokenize(),
-              builder: (context, snapshot) => AlertDialog(
-                  title: snapshot.connectionState == ConnectionState.done
-                      ? Text(snapshot.hasData ? 'TokenResult' : 'Error')
-                      : const Center(child: CircularProgressIndicator()),
-                  content: snapshot.connectionState == ConnectionState.done
-                      ? SelectableText(const JsonEncoder.withIndent('  ')
-                          .convert(snapshot.data ?? snapshot.error))
-                      : null)));
+          builder: (BuildContext context) => AlertDialog(
+              title: Text(title),
+              content: SelectableText(
+                  const JsonEncoder.withIndent('  ').convert(content))));
 }
