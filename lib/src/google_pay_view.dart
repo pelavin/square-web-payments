@@ -3,7 +3,7 @@ import 'dart:js_interop';
 import 'package:flutter/widgets.dart';
 import 'package:square_web_payments/src/square/google_pay_button_options.dart';
 
-import 'payment_method_view.dart';
+import 'payment_html_view.dart';
 import 'square/google_pay.dart';
 
 /// Renders the Google Pay button.
@@ -25,10 +25,10 @@ class GooglePayView extends StatelessWidget {
       required this.onPressed});
 
   @override
-  Widget build(BuildContext context) => PaymentMethodView(
-      paymentMethod: googlePay,
+  Widget build(BuildContext context) => PaymentHtmlView(
       onElementAttached: (element) {
         googlePay.attach(element, googlePayButtonOptions);
         element.addEventListener('click', onPressed.toJS);
-      });
+      },
+      onElementDetached: googlePay.detach);
 }

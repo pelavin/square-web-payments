@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import 'payment_method_view.dart';
+import 'payment_html_view.dart';
 import 'square/payment_card.dart';
 
 /// Renders the Card or Gift Card form.
@@ -12,7 +12,6 @@ class CardView extends StatelessWidget {
   const CardView({super.key, required this.card});
 
   @override
-  Widget build(BuildContext context) => PaymentMethodView(
-      paymentMethod: card,
-      onElementAttached: (element) => card.attach(element));
+  Widget build(BuildContext context) => PaymentHtmlView(
+      onElementAttached: card.attach, onElementDetached: card.detach);
 }
