@@ -40,3 +40,4 @@
 ## 0.0.10
 
 * Renaming Card to PaymentCard to avoid collision with material class
+* Detaching instead of destroying payment method when view is disposed
