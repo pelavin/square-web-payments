@@ -3,28 +3,24 @@ import 'dart:js_interop';
 import 'package:flutter/widgets.dart';
 import 'package:web/web.dart';
 
-import 'square/payment_method.dart';
-
-/// Renders the view associated with the attached payment method.
-class PaymentMethodView extends StatefulWidget {
-  /// The [PaymentMethod] attached to this view.
-  final PaymentMethod paymentMethod;
-
+/// Renders the HTML attached to a given payment method.
+class PaymentHtmlView extends StatefulWidget {
   /// Called when the DOM element is attached.
   final void Function(HTMLDivElement element) onElementAttached;
 
-  /// Creates a [PaymentMethodView].
-  const PaymentMethodView(
-      {super.key,
-      required this.paymentMethod,
-      required this.onElementAttached});
+  /// Called when this object is removed from the tree permanently.
+  final void Function()? onElementDetached;
+
+  /// Creates a [PaymentHtmlView].
+  const PaymentHtmlView(
+      {super.key, required this.onElementAttached, this.onElementDetached});
 
   @override
-  State<StatefulWidget> createState() => _PaymentMethodViewState();
+  State<StatefulWidget> createState() => _PaymentHtmlViewState();
 }
 
-class _PaymentMethodViewState extends State<PaymentMethodView> {
-  bool created = false;
+class _PaymentHtmlViewState extends State<PaymentHtmlView> {
+  bool attached = false;
   double height = 1;
 
   @override
@@ -36,7 +32,9 @@ class _PaymentMethodViewState extends State<PaymentMethodView> {
   @override
   void dispose() {
     super.dispose();
-    widget.paymentMethod.destroy();
+    if (attached && widget.onElementDetached != null) {
+      widget.onElementDetached!();
+    }
   }
 
   void _onElementCreated(Object element) {
@@ -47,8 +45,8 @@ class _PaymentMethodViewState extends State<PaymentMethodView> {
       ResizeObserver observer,
     ) {
       if (element.isConnected) {
-        if (!created) {
-          setState(() => created = true);
+        if (!attached) {
+          setState(() => attached = true);
           widget.onElementAttached(element);
         }
 
