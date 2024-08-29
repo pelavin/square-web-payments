@@ -32,7 +32,7 @@ class WidgetbookApp extends StatelessWidget {
             builder: (context) => _buildPaymentMethod(
                 payments.card(),
                 (card) => Column(children: [
-                      CardView(card: card),
+                      AttachablePaymentMethodView(paymentMethod: card),
                       TextButton(
                           onPressed: () => _tokenize(context, card),
                           child: const Text('Tokenize'))
@@ -42,11 +42,25 @@ class WidgetbookApp extends StatelessWidget {
             builder: (context) => _buildPaymentMethod(
                 payments.giftCard(),
                 (card) => Column(children: [
-                      CardView(card: card),
+                      AttachablePaymentMethodView(paymentMethod: card),
                       TextButton(
                           onPressed: () => _tokenize(context, card),
                           child: const Text('Tokenize'))
-                    ])))
+                    ]))),
+        WidgetbookUseCase(
+            name: 'Google Pay',
+            builder: (context) => _buildPaymentMethod(
+                payments.googlePay(payments.paymentRequest(
+                    const PaymentRequestOptions(
+                        countryCode: 'US',
+                        currencyCode: 'USD',
+                        total: LineItem(amount: '1.00', label: 'Total')))),
+                (card) => Column(children: [
+                      AttachablePaymentMethodView(paymentMethod: card),
+                      TextButton(
+                          onPressed: () => _tokenize(context, card),
+                          child: const Text('Tokenize'))
+                    ]))),
       ]);
 
   Widget _buildPaymentMethod<TPaymentMethod extends PaymentMethod>(
