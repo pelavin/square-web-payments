@@ -49,7 +49,10 @@ class _PaymentViewState extends State<PaymentView> {
                     ])));
 
   void _tokenize() {
-    setState(() => tokenResult = null);
+    setState(() {
+      tokenResult = null;
+      error = null;
+    });
     widget
         .tokenize()
         .then((tokenResult) => setState(() => this.tokenResult = tokenResult))
