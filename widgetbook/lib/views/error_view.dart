@@ -12,6 +12,6 @@ class ErrorView extends StatelessWidget {
   Widget build(BuildContext context) =>
       ObjectView(name: 'Error', propertyNameWidth: 60, properties: [
         Property(name: 'name', widget: Text(error.name)),
-        Property(name: 'message', widget: Flexible(child: Text(error.message)))
+        Property(name: 'message', widget: Text(error.message))
       ]);
 }

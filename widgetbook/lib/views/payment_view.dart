@@ -28,7 +28,9 @@ class _PaymentViewState extends State<PaymentView> {
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                      SizedBox(height: 90, child: widget.view!),
+                      Container(
+                          constraints: const BoxConstraints(minHeight: 90),
+                          child: widget.view!),
                       const SizedBox(height: 6),
                       TextButton(
                           onPressed: _tokenize, child: const Text('TOKENIZE')),
