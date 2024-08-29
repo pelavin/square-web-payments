@@ -18,3 +18,5 @@
 
 * Removing tokenize from builder
 * Consolidating widgetbook files into main.dart
+
+## 0.0.6
