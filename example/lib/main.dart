@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:js_interop';
 
 import 'package:flutter/material.dart';
 import 'package:square_web_payments/square_web_payments.dart';
@@ -48,50 +47,13 @@ class WidgetbookApp extends StatelessWidget {
   void _tokenize(BuildContext context, PaymentMethodView view) => showDialog(
       context: context,
       builder: (BuildContext context) => FutureBuilder(
-          future: view.paymentMethod.tokenize().toDart,
-          builder: (context, snapshot) {
-            String? title;
-            Map<String, dynamic>? content;
-            if (snapshot.hasData) {
-              title = 'TokenResult';
-              content = snapshot.data!.toJson();
-            } else if (snapshot.hasError) {
-              title = 'Error';
-              content = (snapshot.error as Error).toJson();
-            }
-
-            return AlertDialog(
-                title: title != null
-                    ? Text(title)
-                    : const Center(child: CircularProgressIndicator()),
-                content: content != null
-                    ? SelectableText(
-                        const JsonEncoder.withIndent('  ').convert(content))
-                    : null);
-          }));
-}
-
-extension on Error {
-  Map<String, dynamic> toJson() =>
-      {'name': name, 'message': message, 'stack': stack};
-}
-
-extension on TokenResult {
-  Map<String, dynamic> toJson() => {
-        'details': details == null
-            ? null
-            : {
-                'card': details?.card == null ? null : {},
-                'giftCard': details?.giftCard == null ? null : {}
-              },
-        'errors': errors?.toDart
-            .map((error) => {
-                  'field': error.field,
-                  'message': error.message,
-                  'type': error.type
-                })
-            .toList(),
-        'status': status,
-        'token': token
-      };
+          future: view.tokenize(),
+          builder: (context, snapshot) => AlertDialog(
+              title: snapshot.connectionState == ConnectionState.done
+                  ? Text(snapshot.hasData ? 'TokenResult' : 'Error')
+                  : const Center(child: CircularProgressIndicator()),
+              content: snapshot.connectionState == ConnectionState.done
+                  ? SelectableText(const JsonEncoder.withIndent('  ')
+                      .convert(snapshot.data ?? snapshot.error))
+                  : null)));
 }

@@ -20,3 +20,5 @@
 * Consolidating widgetbook files into main.dart
 
 ## 0.0.6
+
+* Exposing Square objects as dart classes wrapping interop extension types

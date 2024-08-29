@@ -3,16 +3,23 @@ import 'dart:js_interop';
 import 'package:flutter/widgets.dart';
 import 'package:web/web.dart';
 
-import 'interop/error.dart';
-import 'interop/payment_method.dart';
+import 'interop/error.dart' as interop;
+import 'interop/payment_method.dart' as interop;
+
+import 'models/token_result.dart';
+import 'models/error.dart';
 
 class PaymentMethodView extends StatefulWidget {
-  final PaymentMethod paymentMethod;
+  final interop.PaymentMethod paymentMethod;
 
   const PaymentMethodView({super.key, required this.paymentMethod});
 
   @override
   State<StatefulWidget> createState() => _PaymentMethodViewState();
+
+  Future<TokenResult> tokenize() =>
+      paymentMethod.tokenize().toDart.then((tokenResult) => tokenResult.toDart,
+          onError: (error) => throw (error as interop.Error).toDart);
 }
 
 class _PaymentMethodViewState extends State<PaymentMethodView> {
