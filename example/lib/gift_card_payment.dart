@@ -8,4 +8,4 @@ import 'payment_view.dart';
 Widget build(BuildContext context) => GiftCardPayment(
     applicationId: 'sandbox-sq0idb-negdp6Z5Q7RYeFbAv38m0A',
     locationId: 'L6XCYJM4ZPHRP',
-    builder: (view, tokenize) => PaymentView(view: view, tokenize: tokenize));
+    builder: (view) => PaymentView(view: view));
