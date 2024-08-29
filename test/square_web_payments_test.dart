@@ -8,6 +8,7 @@ void main() {
         card: PaymentCard(
             attach: (element) => Future.error(UnimplementedError('attach')),
             destroy: () => Future.value(),
+            detach: () => Future.error(UnimplementedError('detach')),
             tokenize: () => Future.error(UnimplementedError('tokenize')))));
     expect(find.byWidgetPredicate((widget) => widget is HtmlElementView),
         findsOneWidget);
