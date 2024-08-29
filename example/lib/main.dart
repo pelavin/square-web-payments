@@ -24,8 +24,7 @@ class WidgetbookApp extends StatelessWidget {
                         countryCode: 'US',
                         currencyCode: 'USD',
                         total: LineItem(amount: '1.00', label: 'Total')))),
-                (applePay) => SelectableText(
-                    const JsonEncoder.withIndent('  ').convert(applePay)))),
+                (applePay) => ApplePayView(applePay: applePay))),
         WidgetbookUseCase(
             name: 'Card',
             builder: (context) => _buildPaymentMethod(
