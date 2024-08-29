@@ -13,7 +13,7 @@
       "problemMatcher": [],
       "label": "dart: run build_runner build -d",
       "options": {
-        "cwd": "${workspaceFolder}/widgetbook"
+        "cwd": "${workspaceFolder}/example"
       }
     },
     {
@@ -27,7 +27,7 @@
       "problemMatcher": [],
       "label": "flutter: flutter run -d web-server",
       "options": {
-        "cwd": "${workspaceFolder}/widgetbook"
+        "cwd": "${workspaceFolder}/example"
       }
     },
     {
@@ -42,7 +42,7 @@
       "problemMatcher": [],
       "label": "flutter: flutter run -d web-server --release",
       "options": {
-        "cwd": "${workspaceFolder}/widgetbook"
+        "cwd": "${workspaceFolder}/example"
       }
     }
   ]

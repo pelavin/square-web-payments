@@ -9,8 +9,8 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:square_web_payments_widgetbook/card_payment.dart' as _i2;
-import 'package:square_web_payments_widgetbook/gift_card_payment.dart' as _i3;
+import 'package:square_web_payments_example/card_payment.dart' as _i2;
+import 'package:square_web_payments_example/gift_card_payment.dart' as _i3;
 import 'package:widgetbook/widgetbook.dart' as _i1;
 
 final directories = <_i1.WidgetbookNode>[

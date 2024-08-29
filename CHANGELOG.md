@@ -9,3 +9,7 @@
 ## 0.0.3
 
 * Using builder pattern to expose tokenize function
+
+## 0.0.4
+
+* Using widgetbook as example project
