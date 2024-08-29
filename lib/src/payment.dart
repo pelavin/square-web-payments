@@ -1,10 +1,10 @@
 import 'package:flutter/widgets.dart';
 
-import 'interop/payment_method.dart' as interop;
+import 'models/payment_method.dart';
 import 'payment_view.dart';
 
 class Payment extends StatefulWidget {
-  final Future<interop.PaymentMethod> future;
+  final Future<PaymentMethod> future;
   final Widget Function(PaymentView? view) builder;
 
   const Payment({super.key, required this.future, required this.builder});

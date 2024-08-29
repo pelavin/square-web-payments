@@ -1,8 +1,6 @@
-import 'dart:js_interop';
-
 import 'package:flutter/widgets.dart';
 
-import 'interop/square.dart';
+import 'models/square.dart';
 import 'payment.dart';
 import 'payment_view.dart';
 
@@ -19,6 +17,6 @@ class GiftCardPayment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Payment(
-      future: square.payments(applicationId, locationId).giftCard().toDart,
+      future: Square.payments(applicationId, locationId).giftCard(),
       builder: builder);
 }

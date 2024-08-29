@@ -1,5 +1,3 @@
-import 'dart:js_interop';
-
 import 'package:flutter/widgets.dart';
 
 import 'interop/square.dart';
@@ -19,6 +17,6 @@ class CardPayment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Payment(
-      future: square.payments(applicationId, locationId).card().toDart,
+      future: square.payments(applicationId, locationId).toDart.card(),
       builder: builder);
 }

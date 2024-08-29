@@ -1,22 +1,15 @@
-import 'dart:js_interop';
-
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:square_web_payments/src/interop/payment_method.dart';
-import 'package:square_web_payments/src/payment_view.dart';
-
-@JSExport()
-class FakePaymentMethod {
-  String get id => 'fake_id';
-}
+import 'package:square_web_payments/square_web_payments.dart';
 
 void main() {
-  final PaymentMethod paymentMethod =
-      createJSInteropWrapper<FakePaymentMethod>(FakePaymentMethod())
-          as PaymentMethod;
-
   testWidgets('finds an HtmlElementView widget', (tester) async {
-    await tester.pumpWidget(PaymentView(paymentMethod: paymentMethod));
+    await tester.pumpWidget(PaymentView(
+        paymentMethod: PaymentMethod(
+            attach: (element) => Future.error(UnimplementedError),
+            destroy: () => Future.error(UnimplementedError),
+            detach: () => Future.error(UnimplementedError),
+            tokenize: () => Future.error(UnimplementedError))));
     expect(find.byWidgetPredicate((widget) => widget is HtmlElementView),
         findsOneWidget);
   });
