@@ -24,7 +24,9 @@ class WidgetbookApp extends StatelessWidget {
                         countryCode: 'US',
                         currencyCode: 'USD',
                         total: LineItem(amount: '1.00', label: 'Total')))),
-                (applePay) => ApplePayView(applePay: applePay))),
+                (applePay) => ApplePayView(
+                    applePay: applePay,
+                    onPressed: () => _tokenize(context, applePay)))),
         WidgetbookUseCase(
             name: 'Card',
             builder: (context) => _buildPaymentMethod(
@@ -58,16 +60,17 @@ class WidgetbookApp extends StatelessWidget {
                               .convert(snapshot.error))
                       : const Center(child: CircularProgressIndicator())));
 
-  void _tokenize(BuildContext context, PaymentMethod tokenizable) => showDialog(
-      context: context,
-      builder: (BuildContext context) => FutureBuilder(
-          future: tokenizable.tokenize(),
-          builder: (context, snapshot) => AlertDialog(
-              title: snapshot.connectionState == ConnectionState.done
-                  ? Text(snapshot.hasData ? 'TokenResult' : 'Error')
-                  : const Center(child: CircularProgressIndicator()),
-              content: snapshot.connectionState == ConnectionState.done
-                  ? SelectableText(const JsonEncoder.withIndent('  ')
-                      .convert(snapshot.data ?? snapshot.error))
-                  : null)));
+  void _tokenize(BuildContext context, PaymentMethod paymentMethod) =>
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => FutureBuilder(
+              future: paymentMethod.tokenize(),
+              builder: (context, snapshot) => AlertDialog(
+                  title: snapshot.connectionState == ConnectionState.done
+                      ? Text(snapshot.hasData ? 'TokenResult' : 'Error')
+                      : const Center(child: CircularProgressIndicator()),
+                  content: snapshot.connectionState == ConnectionState.done
+                      ? SelectableText(const JsonEncoder.withIndent('  ')
+                          .convert(snapshot.data ?? snapshot.error))
+                      : null)));
 }
