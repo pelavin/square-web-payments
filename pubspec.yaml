@@ -1,7 +1,7 @@
 name: square_web_payments
 description: "A new Flutter package project."
 version: 0.0.1
-homepage:
+repository: https://github.com/rpelavin/square-web-payments
 
 environment:
   sdk: ^3.5.1
