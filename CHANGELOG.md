@@ -25,3 +25,5 @@
 * Removing builder pattern and top-level widgets in favor of instantiating payment methods directly
 
 ## 0.0.7
+
+* Adding support for Apple Pay
