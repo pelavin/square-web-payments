@@ -22,3 +22,4 @@
 ## 0.0.6
 
 * Exposing Square objects as dart classes wrapping interop extension types
+* Removing builder pattern and top-level widgets in favor of instantiating payment methods directly

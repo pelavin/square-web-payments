@@ -4,7 +4,7 @@ import 'package:square_web_payments/square_web_payments.dart';
 
 void main() {
   testWidgets('finds an HtmlElementView widget', (tester) async {
-    await tester.pumpWidget(PaymentView(
+    await tester.pumpWidget(PaymentMethodView(
         paymentMethod: PaymentMethod(
             attach: (element) => Future.error(UnimplementedError),
             destroy: () => Future.error(UnimplementedError),

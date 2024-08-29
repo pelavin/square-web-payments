@@ -6,16 +6,16 @@ import 'package:web/web.dart';
 import 'models/payment_method.dart';
 import 'models/error.dart';
 
-class PaymentView extends StatefulWidget {
+class PaymentMethodView extends StatefulWidget {
   final PaymentMethod paymentMethod;
 
-  const PaymentView({super.key, required this.paymentMethod});
+  const PaymentMethodView({super.key, required this.paymentMethod});
 
   @override
-  State<StatefulWidget> createState() => _PaymentViewState();
+  State<StatefulWidget> createState() => _PaymentMethodViewState();
 }
 
-class _PaymentViewState extends State<PaymentView> {
+class _PaymentMethodViewState extends State<PaymentMethodView> {
   bool attaching = false;
   bool attached = false;
   double height = 1;
@@ -27,18 +27,9 @@ class _PaymentViewState extends State<PaymentView> {
           tagName: 'div', onElementCreated: _onElementCreated));
 
   @override
-  void dispose() async {
+  void dispose() {
     super.dispose();
-    if (attached) {
-      try {
-        await widget.paymentMethod.detach();
-      } catch (error) {
-        error as Error;
-        if (error.name != 'PaymentMethodAlreadyDestroyedError') {
-          rethrow;
-        }
-      }
-    }
+    widget.paymentMethod.destroy();
   }
 
   void _onElementCreated(Object element) {

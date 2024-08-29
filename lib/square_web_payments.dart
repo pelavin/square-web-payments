@@ -10,6 +10,4 @@ export 'src/models/square.dart' show Square;
 export 'src/models/token_details.dart' show TokenDetails;
 export 'src/models/token_error_details.dart' show TokenErrorDetails;
 export 'src/models/token_result.dart' show TokenResult;
-export 'src/card_payment.dart' show CardPayment;
-export 'src/gift_card_payment.dart' show GiftCardPayment;
-export 'src/payment_view.dart' show PaymentView;
+export 'src/payment_method_view.dart' show PaymentMethodView;
