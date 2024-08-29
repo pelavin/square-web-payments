@@ -1,3 +1,5 @@
+import 'dart:js_interop';
+
 import 'contact.dart';
 
 /// https://developer.squareup.com/reference/sdks/web/payments/objects/CardDetails
@@ -28,4 +30,22 @@ class CardDetails {
         'last4': last4,
         ...(prepaidType == null ? {} : {'prepaidType': prepaidType})
       };
+}
+
+extension type JSCardDetails._(JSObject _) implements JSObject {
+  external JSContact? get billing;
+  external String get brand;
+  external String? get cardType;
+  external int get expMonth;
+  external int get expYear;
+  external String get last4;
+  external String? get prepaidType;
+  CardDetails get toDart => CardDetails(
+      billing: billing?.toDart,
+      brand: brand,
+      cardType: cardType,
+      expMonth: expMonth,
+      expYear: expYear,
+      last4: last4,
+      prepaidType: prepaidType);
 }
