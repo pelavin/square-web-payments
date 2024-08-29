@@ -1,24 +1,24 @@
 import 'package:flutter/widgets.dart';
 
 import 'interop/payment_method.dart' as interop;
-import 'payment_method_view.dart';
+import 'payment_view.dart';
 
-class PaymentMethod extends StatefulWidget {
+class Payment extends StatefulWidget {
   final Future<interop.PaymentMethod> future;
-  final Widget Function(PaymentMethodView? view) builder;
+  final Widget Function(PaymentView? view) builder;
 
-  const PaymentMethod({super.key, required this.future, required this.builder});
+  const Payment({super.key, required this.future, required this.builder});
 
   @override
-  State<StatefulWidget> createState() => _PaymentMethodState();
+  State<StatefulWidget> createState() => _PaymentState();
 }
 
-class _PaymentMethodState extends State<PaymentMethod> {
+class _PaymentState extends State<Payment> {
   @override
   Widget build(BuildContext context) => FutureBuilder(
       future: widget.future,
       builder: (context, snapshot) => widget.builder(snapshot.hasData
-          ? PaymentMethodView(paymentMethod: snapshot.data!)
+          ? PaymentView(paymentMethod: snapshot.data!)
           : null));
 
   @override
