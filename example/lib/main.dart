@@ -4,8 +4,8 @@ import 'package:widgetbook/widgetbook.dart';
 
 import 'payment_builder.dart';
 
-final Payments payments =
-    Square.payments('sandbox-sq0idb-negdp6Z5Q7RYeFbAv38m0A', 'L6XCYJM4ZPHRP');
+final Payments payments = Square.payments(
+    'sandbox-sq0idb-negdp6Z5Q7RYeFbAv38m0A', 'fake_location_id');
 
 void main() {
   runApp(const WidgetbookApp());
