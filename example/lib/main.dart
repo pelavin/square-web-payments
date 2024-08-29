@@ -46,7 +46,20 @@ class WidgetbookApp extends StatelessWidget {
                       TextButton(
                           onPressed: () => _tokenize(context, card),
                           child: const Text('Tokenize'))
-                    ])))
+                    ]))),
+        WidgetbookUseCase(
+            name: 'Google Pay',
+            builder: (context) => _buildPaymentMethod(
+                payments.googlePay(payments.paymentRequest(
+                    const PaymentRequestOptions(
+                        countryCode: 'US',
+                        currencyCode: 'USD',
+                        total: LineItem(amount: '1.00', label: 'Total')))),
+                (googlePay) => GooglePayView(
+                    googlePay: googlePay,
+                    googlePayButtonOptions:
+                        const GooglePayButtonOptions(buttonSizeMode: 'fill'),
+                    onPressed: () => _tokenize(context, googlePay)))),
       ]);
 
   Widget _buildPaymentMethod<TPaymentMethod extends PaymentMethod>(

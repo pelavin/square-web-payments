@@ -5,12 +5,19 @@ import 'package:web/web.dart';
 
 import 'square/payment_method.dart';
 
+/// Renders the view associated with the attached payment method.
 class PaymentMethodView extends StatefulWidget {
+  /// The [PaymentMethod] attached to this view.
   final PaymentMethod paymentMethod;
-  final void Function(HTMLDivElement element) onElementCreated;
 
+  /// Called when the DOM element is attached.
+  final void Function(HTMLDivElement element) onElementAttached;
+
+  /// Creates a [PaymentMethodView].
   const PaymentMethodView(
-      {super.key, required this.paymentMethod, required this.onElementCreated});
+      {super.key,
+      required this.paymentMethod,
+      required this.onElementAttached});
 
   @override
   State<StatefulWidget> createState() => _PaymentMethodViewState();
@@ -42,7 +49,7 @@ class _PaymentMethodViewState extends State<PaymentMethodView> {
       if (element.isConnected) {
         if (!created) {
           setState(() => created = true);
-          widget.onElementCreated(element);
+          widget.onElementAttached(element);
         }
 
         final contentHeight = entries.toDart.first.contentRect.height;
