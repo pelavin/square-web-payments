@@ -13,3 +13,8 @@
 ## 0.0.4
 
 * Using widgetbook as example project
+
+## 0.0.5
+
+* Removing tokenize from builder
+* Consolidating widgetbook files into main.dart
