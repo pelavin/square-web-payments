@@ -3,21 +3,21 @@ import 'dart:js_interop';
 import 'package:flutter/widgets.dart';
 import 'package:web/web.dart';
 
-import 'models/payment_method.dart';
-import 'models/error.dart';
+import 'square/payment_method.dart';
 
 class PaymentMethodView extends StatefulWidget {
   final PaymentMethod paymentMethod;
+  final void Function(HTMLDivElement element) onElementCreated;
 
-  const PaymentMethodView({super.key, required this.paymentMethod});
+  const PaymentMethodView(
+      {super.key, required this.paymentMethod, required this.onElementCreated});
 
   @override
   State<StatefulWidget> createState() => _PaymentMethodViewState();
 }
 
 class _PaymentMethodViewState extends State<PaymentMethodView> {
-  bool attaching = false;
-  bool attached = false;
+  bool created = false;
   double height = 1;
 
   @override
@@ -40,13 +40,9 @@ class _PaymentMethodViewState extends State<PaymentMethodView> {
       ResizeObserver observer,
     ) {
       if (element.isConnected) {
-        if (!attaching && !attached) {
-          setState(() => attaching = true);
-          widget.paymentMethod
-              .attach(element)
-              .catchError((error) => throw error as Error)
-              .then((_) => setState(() => attached = true))
-              .whenComplete(() => setState(() => attaching = false));
+        if (!created) {
+          setState(() => created = true);
+          widget.onElementCreated(element);
         }
 
         final contentHeight = entries.toDart.first.contentRect.height;
