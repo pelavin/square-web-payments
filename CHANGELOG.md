@@ -43,3 +43,5 @@
 * Detaching instead of destroying payment method when view is disposed
 
 ## 0.0.11
+
+* Updating GitHub repository and pages URLs
