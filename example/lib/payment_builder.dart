@@ -33,10 +33,10 @@ class _PaymentBuilderState<TPaymentMethod extends PaymentMethod>
                 snapshot.connectionState == ConnectionState.done
                     ? snapshot.hasData
                         ? widget.builder(snapshot.data!, _tokenize)
-                        : _json(snapshot.error)
+                        : _buildJson(snapshot.error)
                     : const Center(child: CircularProgressIndicator())),
-        ...(error != null ? [_json(error)] : []),
-        ...(tokenResult != null ? [_json(tokenResult)] : [])
+        ...(error != null ? [_buildJson(error)] : []),
+        ...(tokenResult != null ? [_buildJson(tokenResult)] : [])
       ]));
 
   @override
@@ -56,6 +56,6 @@ class _PaymentBuilderState<TPaymentMethod extends PaymentMethod>
         onError: (error) => setState(() => this.error = error));
   }
 
-  Widget _json(Object? object) =>
+  Widget _buildJson(Object? object) =>
       SelectableText(const JsonEncoder.withIndent('  ').convert(object));
 }
