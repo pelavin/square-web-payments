@@ -24,7 +24,7 @@ class PaymentMethodView extends StatefulWidget {
 }
 
 class _PaymentMethodViewState extends State<PaymentMethodView> {
-  bool created = false;
+  bool attached = false;
   double height = 1;
 
   @override
@@ -47,8 +47,8 @@ class _PaymentMethodViewState extends State<PaymentMethodView> {
       ResizeObserver observer,
     ) {
       if (element.isConnected) {
-        if (!created) {
-          setState(() => created = true);
+        if (!attached) {
+          setState(() => attached = true);
           widget.onElementAttached(element);
         }
 

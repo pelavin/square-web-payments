@@ -38,3 +38,5 @@
 * Adding support for Google Pay
 
 ## 0.0.10
+
+* Renaming Card to PaymentCard to avoid collision with material class

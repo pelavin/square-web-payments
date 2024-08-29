@@ -41,10 +41,10 @@ class WidgetbookApp extends StatelessWidget {
             name: 'Gift Card',
             builder: (context) => _buildPaymentMethod(
                 payments.giftCard(),
-                (card) => Column(children: [
-                      CardView(card: card),
+                (giftCard) => Column(children: [
+                      CardView(card: giftCard),
                       TextButton(
-                          onPressed: () => _tokenize(context, card),
+                          onPressed: () => _tokenize(context, giftCard),
                           child: const Text('Tokenize'))
                     ]))),
         WidgetbookUseCase(
