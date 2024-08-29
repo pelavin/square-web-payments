@@ -2,10 +2,10 @@ import 'dart:js_interop';
 
 import 'error.dart';
 import 'token_result.dart';
-import 'tokenizable.dart';
+import 'payment_method.dart';
 
 /// https://developer.squareup.com/reference/sdks/web/payments/objects/ApplePay
-class ApplePay implements Tokenizable {
+class ApplePay implements PaymentMethod {
   final Future Function() destroy;
   @override
   final Future<TokenResult> Function() tokenize;

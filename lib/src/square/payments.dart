@@ -2,14 +2,14 @@ import 'dart:js_interop';
 
 import 'apple_pay.dart';
 import 'error.dart';
-import 'payment_method.dart';
+import 'card.dart';
 import 'payment_request_options.dart';
 
 /// https://developer.squareup.com/reference/sdks/web/payments/objects/Payments
 class Payments {
   final Future<ApplePay> Function(JSObject paymentRequest) applePay;
-  final Future<PaymentMethod> Function() card;
-  final Future<PaymentMethod> Function() giftCard;
+  final Future<Card> Function() card;
+  final Future<Card> Function() giftCard;
   final JSObject Function(PaymentRequestOptions options) paymentRequest;
 
   const Payments(

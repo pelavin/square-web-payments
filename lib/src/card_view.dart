@@ -3,19 +3,19 @@ import 'dart:js_interop';
 import 'package:flutter/widgets.dart';
 import 'package:web/web.dart';
 
-import 'square/payment_method.dart';
+import 'square/card.dart';
 import 'square/error.dart';
 
-class PaymentMethodView extends StatefulWidget {
-  final PaymentMethod paymentMethod;
+class CardView extends StatefulWidget {
+  final Card card;
 
-  const PaymentMethodView({super.key, required this.paymentMethod});
+  const CardView({super.key, required this.card});
 
   @override
-  State<StatefulWidget> createState() => _PaymentMethodViewState();
+  State<StatefulWidget> createState() => _CardViewState();
 }
 
-class _PaymentMethodViewState extends State<PaymentMethodView> {
+class _CardViewState extends State<CardView> {
   bool attaching = false;
   bool attached = false;
   double height = 1;
@@ -29,7 +29,7 @@ class _PaymentMethodViewState extends State<PaymentMethodView> {
   @override
   void dispose() {
     super.dispose();
-    widget.paymentMethod.destroy();
+    widget.card.destroy();
   }
 
   void _onElementCreated(Object element) {
@@ -42,7 +42,7 @@ class _PaymentMethodViewState extends State<PaymentMethodView> {
       if (element.isConnected) {
         if (!attaching && !attached) {
           setState(() => attaching = true);
-          widget.paymentMethod
+          widget.card
               .attach(element)
               .catchError((error) => throw error as Error)
               .then((_) => setState(() => attached = true))
