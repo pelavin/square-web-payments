@@ -30,11 +30,23 @@ class WidgetbookApp extends StatelessWidget {
         WidgetbookUseCase(
             name: 'Card',
             builder: (context) => _buildPaymentMethod(
-                payments.card(), (card) => CardView(card: card))),
+                payments.card(),
+                (card) => Column(children: [
+                      CardView(card: card),
+                      TextButton(
+                          onPressed: () => _tokenize(context, card),
+                          child: const Text('Tokenize'))
+                    ]))),
         WidgetbookUseCase(
             name: 'Gift Card',
             builder: (context) => _buildPaymentMethod(
-                payments.giftCard(), (card) => CardView(card: card)))
+                payments.giftCard(),
+                (card) => Column(children: [
+                      CardView(card: card),
+                      TextButton(
+                          onPressed: () => _tokenize(context, card),
+                          child: const Text('Tokenize'))
+                    ])))
       ]);
 
   Widget _buildPaymentMethod<TPaymentMethod extends PaymentMethod>(
@@ -49,13 +61,7 @@ class WidgetbookApp extends StatelessWidget {
               builder: (context, snapshot) =>
                   snapshot.connectionState == ConnectionState.done
                       ? snapshot.data != null
-                          ? Column(children: [
-                              builder(snapshot.data!),
-                              TextButton(
-                                  onPressed: () =>
-                                      _tokenize(context, snapshot.data!),
-                                  child: const Text('Tokenize'))
-                            ])
+                          ? builder(snapshot.data!)
                           : SelectableText(const JsonEncoder.withIndent('  ')
                               .convert(snapshot.error))
                       : const Center(child: CircularProgressIndicator())));
