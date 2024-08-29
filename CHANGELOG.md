@@ -27,3 +27,7 @@
 ## 0.0.7
 
 * Adding support for Apple Pay
+
+## 0.0.8
+
+* Moving Apple Pay button styling from html to dart
