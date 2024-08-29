@@ -2,16 +2,16 @@ import 'dart:js_interop';
 
 import 'apple_pay.dart';
 import 'error.dart';
-import 'attachable_payment_method.dart';
+import 'card.dart';
+import 'google_pay.dart';
 import 'payment_request_options.dart';
 
 /// https://developer.squareup.com/reference/sdks/web/payments/objects/Payments
 class Payments {
   final Future<ApplePay> Function(JSObject paymentRequest) applePay;
-  final Future<AttachablePaymentMethod> Function() card;
-  final Future<AttachablePaymentMethod> Function() giftCard;
-  final Future<AttachablePaymentMethod> Function(JSObject paymentRequest)
-      googlePay;
+  final Future<Card> Function() card;
+  final Future<Card> Function() giftCard;
+  final Future<GooglePay> Function(JSObject paymentRequest) googlePay;
   final JSObject Function(PaymentRequestOptions options) paymentRequest;
 
   const Payments(
@@ -24,10 +24,9 @@ class Payments {
 
 extension type JSPayments._(JSObject _) implements JSObject {
   external JSPromise<JSApplePay> applePay(JSObject paymentRequest);
-  external JSPromise<JSAttachablePaymentMethod> card();
-  external JSPromise<JSAttachablePaymentMethod> giftCard();
-  external JSPromise<JSAttachablePaymentMethod> googlePay(
-      JSObject paymentRequest);
+  external JSPromise<JSCard> card();
+  external JSPromise<JSCard> giftCard();
+  external JSPromise<JSGooglePay> googlePay(JSObject paymentRequest);
   external JSObject paymentRequest(JSPaymentRequestOptions options);
   Payments get toDart => Payments(
       applePay: (JSObject paymentRequest) => applePay(paymentRequest)
