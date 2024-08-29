@@ -16,7 +16,12 @@ class ApplePayView extends StatelessWidget {
   Widget build(BuildContext context) => PaymentMethodView(
       paymentMethod: applePay,
       onElementCreated: (element) {
-        element.id = 'apple-pay-button';
         element.addEventListener('click', onPressed.toJS);
+        element.style.height = '48px';
+        element.style.width = '100%';
+        element.style.display = 'inline-block';
+        element.style.setProperty('-webkit-appearance', '-apple-pay-button');
+        element.style.setProperty('-apple-pay-button-type', 'plain');
+        element.style.setProperty('-apple-pay-button-style', 'black');
       });
 }
