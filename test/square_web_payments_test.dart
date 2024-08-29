@@ -2,8 +2,8 @@ import 'dart:js_interop';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:square_web_payments/square_web_payments.dart';
+import 'package:square_web_payments/src/interop.dart' as interop;
+import 'package:square_web_payments/src/payment_method_view.dart';
 
 @JSExport()
 class FakePaymentMethod {
@@ -11,9 +11,9 @@ class FakePaymentMethod {
 }
 
 void main() {
-  final PaymentMethod paymentMethod =
+  final interop.PaymentMethod paymentMethod =
       createJSInteropWrapper<FakePaymentMethod>(FakePaymentMethod())
-          as PaymentMethod;
+          as interop.PaymentMethod;
 
   testWidgets('finds an HtmlElementView widget', (tester) async {
     await tester.pumpWidget(PaymentMethodView(paymentMethod: paymentMethod));

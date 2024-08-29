@@ -2,6 +2,21 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "type": "dart",
+      "command": "dart",
+      "args": [
+        "run",
+        "build_runner",
+        "build",
+        "-d"
+      ],
+      "problemMatcher": [],
+      "label": "dart: run build_runner build -d",
+      "options": {
+        "cwd": "${workspaceFolder}/widgetbook"
+      }
+    },
+    {
       "type": "flutter",
       "command": "flutter",
       "args": [

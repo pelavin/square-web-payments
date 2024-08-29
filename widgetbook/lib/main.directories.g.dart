@@ -9,21 +9,23 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:square_web_payments_widgetbook/payment_method_view.dart' as _i2;
+import 'package:square_web_payments_widgetbook/card_payment.dart' as _i2;
+import 'package:square_web_payments_widgetbook/gift_card_payment.dart' as _i3;
 import 'package:widgetbook/widgetbook.dart' as _i1;
 
 final directories = <_i1.WidgetbookNode>[
-  _i1.WidgetbookComponent(
-    name: 'PaymentMethodView',
-    useCases: [
-      _i1.WidgetbookUseCase(
-        name: 'Card',
-        builder: _i2.buildCard,
-      ),
-      _i1.WidgetbookUseCase(
-        name: 'GiftCard',
-        builder: _i2.buildGiftCard,
-      ),
-    ],
-  )
+  _i1.WidgetbookLeafComponent(
+    name: 'CardPayment',
+    useCase: _i1.WidgetbookUseCase(
+      name: 'Default',
+      builder: _i2.build,
+    ),
+  ),
+  _i1.WidgetbookLeafComponent(
+    name: 'GiftCardPayment',
+    useCase: _i1.WidgetbookUseCase(
+      name: 'Default',
+      builder: _i3.build,
+    ),
+  ),
 ];
