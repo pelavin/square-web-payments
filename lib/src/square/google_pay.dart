@@ -9,20 +9,25 @@ import 'payment_method.dart';
 
 /// https://developer.squareup.com/reference/sdks/web/payments/objects/GooglePay
 class GooglePay implements PaymentMethod {
-  final Future Function(HTMLDivElement element, GooglePayButtonOptions? options)
-      attach;
+  final Future<void> Function(
+      HTMLDivElement element, GooglePayButtonOptions? options) attach;
   @override
-  final Future Function() destroy;
+  final Future<void> Function() destroy;
+  final Future<bool> Function() detach;
   @override
   final Future<TokenResult> Function() tokenize;
 
   const GooglePay(
-      {required this.attach, required this.destroy, required this.tokenize});
+      {required this.attach,
+      required this.destroy,
+      required this.detach,
+      required this.tokenize});
 }
 
 extension type JSGooglePay._(JSPaymentMethod _) implements JSPaymentMethod {
   external JSPromise attach(
       HTMLDivElement element, JSGooglePayButtonOptions? options);
+  external JSPromise<JSBoolean> detach();
   GooglePay get toDart => GooglePay(
       attach: (element, options) => attach(
               element,
@@ -31,6 +36,7 @@ extension type JSGooglePay._(JSPaymentMethod _) implements JSPaymentMethod {
                   : null)
           .toDart,
       destroy: () => destroy().toDart,
+      detach: () => detach().toDart.then((result) => result.toDart),
       tokenize: () => tokenize().toDart.then(
           (tokenResult) => tokenResult.toDart,
           onError: (error) => throw (error as JSError).toDart));

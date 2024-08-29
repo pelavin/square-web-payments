@@ -7,7 +7,7 @@ import 'payment_method.dart';
 /// https://developer.squareup.com/reference/sdks/web/payments/objects/ApplePay
 class ApplePay implements PaymentMethod {
   @override
-  final Future Function() destroy;
+  final Future<void> Function() destroy;
   @override
   final Future<TokenResult> Function() tokenize;
 

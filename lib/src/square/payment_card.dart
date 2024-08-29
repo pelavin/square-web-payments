@@ -8,22 +8,28 @@ import 'payment_method.dart';
 
 /// https://developer.squareup.com/reference/sdks/web/payments/objects/Card
 /// https://developer.squareup.com/reference/sdks/web/payments/objects/GiftCard
-class Card implements PaymentMethod {
-  final Future Function(HTMLDivElement element) attach;
+class PaymentCard implements PaymentMethod {
+  final Future<void> Function(HTMLDivElement element) attach;
   @override
-  final Future Function() destroy;
+  final Future<void> Function() destroy;
+  final Future<bool> Function() detach;
   @override
   final Future<TokenResult> Function() tokenize;
 
-  const Card(
-      {required this.attach, required this.destroy, required this.tokenize});
+  const PaymentCard(
+      {required this.attach,
+      required this.destroy,
+      required this.detach,
+      required this.tokenize});
 }
 
-extension type JSCard._(JSPaymentMethod _) implements JSPaymentMethod {
+extension type JSPaymentCard._(JSPaymentMethod _) implements JSPaymentMethod {
   external JSPromise attach(HTMLDivElement element);
-  Card get toDart => Card(
+  external JSPromise<JSBoolean> detach();
+  PaymentCard get toDart => PaymentCard(
       attach: (element) => attach(element).toDart,
       destroy: () => destroy().toDart,
+      detach: () => detach().toDart.then((result) => result.toDart),
       tokenize: () => tokenize().toDart.then(
           (tokenResult) => tokenResult.toDart,
           onError: (error) => throw (error as JSError).toDart));
