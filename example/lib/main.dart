@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:square_web_payments/square_web_payments.dart';
@@ -19,21 +18,32 @@ class WidgetbookApp extends StatelessWidget {
   Widget build(BuildContext context) => Widgetbook.material(directories: [
         WidgetbookUseCase(
             name: 'Apple Pay',
-            builder: (context) {
-              final PaymentRequest paymentRequest = payments.paymentRequest(
-                  const PaymentRequestOptions(
-                      countryCode: 'US', currencyCode: 'USD'));
-              print(inspect(paymentRequest));
-              return const Placeholder();
-            }),
+            builder: (context) => _buildApplePay(payments.applePay(
+                payments.paymentRequest(const PaymentRequestOptions(
+                    countryCode: 'US',
+                    currencyCode: 'USD',
+                    total: LineItem(amount: '1.00', label: 'Total')))))),
         WidgetbookUseCase(
-            name: 'Card', builder: (context) => _buildPayment(payments.card())),
+            name: 'Card',
+            builder: (context) => _buildPaymentMethod(payments.card())),
         WidgetbookUseCase(
             name: 'Gift Card',
-            builder: (context) => _buildPayment(payments.giftCard()))
+            builder: (context) => _buildPaymentMethod(payments.giftCard()))
       ]);
 
-  Widget _buildPayment(Future<PaymentMethod> future) => Container(
+  Widget _buildApplePay(Future<ApplePay> future) => Container(
+      constraints: const BoxConstraints.expand(),
+      decoration: const BoxDecoration(color: Colors.white),
+      padding: const EdgeInsets.all(8),
+      child: FutureBuilder(
+          future: future,
+          builder: (context, snapshot) =>
+              snapshot.connectionState == ConnectionState.done
+                  ? SelectableText(const JsonEncoder.withIndent('  ')
+                      .convert(snapshot.data ?? snapshot.error))
+                  : const Center(child: CircularProgressIndicator())));
+
+  Widget _buildPaymentMethod(Future<PaymentMethod> future) => Container(
       constraints: const BoxConstraints.expand(),
       decoration: const BoxDecoration(color: Colors.white),
       padding: const EdgeInsets.all(8),
@@ -48,17 +58,16 @@ class WidgetbookApp extends StatelessWidget {
                       child: const Text('Tokenize'))
                 ])));
 
-  void _tokenize(BuildContext context, PaymentMethod paymentMethod) =>
-      showDialog(
-          context: context,
-          builder: (BuildContext context) => FutureBuilder(
-              future: paymentMethod.tokenize(),
-              builder: (context, snapshot) => AlertDialog(
-                  title: snapshot.connectionState == ConnectionState.done
-                      ? Text(snapshot.hasData ? 'TokenResult' : 'Error')
-                      : const Center(child: CircularProgressIndicator()),
-                  content: snapshot.connectionState == ConnectionState.done
-                      ? SelectableText(const JsonEncoder.withIndent('  ')
-                          .convert(snapshot.data ?? snapshot.error))
-                      : null)));
+  void _tokenize(BuildContext context, Tokenizable tokenizable) => showDialog(
+      context: context,
+      builder: (BuildContext context) => FutureBuilder(
+          future: tokenizable.tokenize(),
+          builder: (context, snapshot) => AlertDialog(
+              title: snapshot.connectionState == ConnectionState.done
+                  ? Text(snapshot.hasData ? 'TokenResult' : 'Error')
+                  : const Center(child: CircularProgressIndicator()),
+              content: snapshot.connectionState == ConnectionState.done
+                  ? SelectableText(const JsonEncoder.withIndent('  ')
+                      .convert(snapshot.data ?? snapshot.error))
+                  : null)));
 }

@@ -1,33 +1,39 @@
 import 'dart:js_interop';
 
+import 'apple_pay.dart';
 import 'error.dart';
 import 'payment_method.dart';
 import 'payment_request_options.dart';
-import 'payment_request.dart';
 
 /// https://developer.squareup.com/reference/sdks/web/payments/objects/Payments
 class Payments {
+  final Future<ApplePay> Function(JSObject paymentRequest) applePay;
   final Future<PaymentMethod> Function() card;
   final Future<PaymentMethod> Function() giftCard;
-  final PaymentRequest Function(PaymentRequestOptions options) paymentRequest;
+  final JSObject Function(PaymentRequestOptions options) paymentRequest;
 
   const Payments(
-      {required this.card,
+      {required this.applePay,
+      required this.card,
       required this.giftCard,
       required this.paymentRequest});
 }
 
 extension type JSPayments._(JSObject _) implements JSObject {
+  external JSPromise<JSApplePay> applePay(JSObject paymentRequest);
   external JSPromise<JSPaymentMethod> card();
   external JSPromise<JSPaymentMethod> giftCard();
-  external JSPaymentRequest paymentRequest(JSPaymentRequestOptions options);
+  external JSObject paymentRequest(JSPaymentRequestOptions options);
   Payments get toDart => Payments(
+      applePay: (JSObject paymentRequest) =>
+          applePay(paymentRequest)
+              .toDart
+              .then((applePay) => applePay.toDart,
+                  onError: (error) => throw (error as JSError).toDart),
       card: () => card().toDart.then((paymentMethod) => paymentMethod.toDart,
           onError: (error) => throw (error as JSError).toDart),
-      giftCard: () => giftCard().toDart.then(
-          (paymentMethod) => paymentMethod.toDart,
+      giftCard: () => giftCard().toDart.then((paymentMethod) => paymentMethod.toDart,
           onError: (error) => throw (error as JSError).toDart),
-      paymentRequest: (PaymentRequestOptions options) => paymentRequest(
-              createJSInteropWrapper(options) as JSPaymentRequestOptions)
-          .toDart);
+      paymentRequest: (PaymentRequestOptions options) =>
+          paymentRequest(createJSInteropWrapper(options) as JSPaymentRequestOptions));
 }
