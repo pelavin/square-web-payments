@@ -6,10 +6,10 @@ void main() {
   testWidgets('finds an HtmlElementView widget', (tester) async {
     await tester.pumpWidget(PaymentMethodView(
         paymentMethod: PaymentMethod(
-            attach: (element) => Future.error(UnimplementedError),
-            destroy: () => Future.error(UnimplementedError),
-            detach: () => Future.error(UnimplementedError),
-            tokenize: () => Future.error(UnimplementedError))));
+            attach: (element) => Future.error(UnimplementedError('attach')),
+            destroy: () => Future.value(),
+            detach: () => Future.error(UnimplementedError('detach')),
+            tokenize: () => Future.error(UnimplementedError('tokenize')))));
     expect(find.byWidgetPredicate((widget) => widget is HtmlElementView),
         findsOneWidget);
   });
