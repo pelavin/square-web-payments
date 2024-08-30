@@ -45,3 +45,7 @@
 ## 0.0.11
 
 * Updating GitHub repository and pages URLs
+
+## 0.0.12
+
+* Cleaning up error handling
