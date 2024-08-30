@@ -49,3 +49,5 @@
 ## 0.0.12
 
 * Cleaning up error handling
+
+## 0.0.13
