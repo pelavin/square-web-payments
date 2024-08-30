@@ -29,18 +29,21 @@ extension type JSPayments._(JSObject _) implements JSObject {
   external JSPromise<JSGooglePay> googlePay(JSObject paymentRequest);
   external JSObject paymentRequest(JSPaymentRequestOptions options);
   Payments get toDart => Payments(
-      applePay: (JSObject paymentRequest) => applePay(paymentRequest)
-          .toDart
-          .then((applePay) => applePay.toDart,
-              onError: (error) => throw (error as JSError).toDart),
-      card: () => card().toDart.then((card) => card.toDart,
-          onError: (error) => throw (error as JSError).toDart),
-      giftCard: () => giftCard().toDart.then((giftCard) => giftCard.toDart,
-          onError: (error) => throw (error as JSError).toDart),
-      googlePay: (JSObject paymentRequest) => googlePay(paymentRequest)
-          .toDart
-          .then((googlePlay) => googlePlay.toDart,
-              onError: (error) => throw (error as JSError).toDart),
-      paymentRequest: (PaymentRequestOptions options) =>
-          paymentRequest(createJSInteropWrapper(options) as JSPaymentRequestOptions));
+      applePay: (JSObject paymentRequest) =>
+          tryCatchToDart(() => applePay(paymentRequest))
+              .then((applePay) => applePay.toDart),
+      card: () => tryCatchToDart(() => card()).then((card) => card.toDart),
+      giftCard: () =>
+          tryCatchToDart(() => giftCard()).then((giftCard) => giftCard.toDart),
+      googlePay: (JSObject paymentRequest) =>
+          tryCatchToDart(() => googlePay(paymentRequest))
+              .then((googlePlay) => googlePlay.toDart),
+      paymentRequest: (PaymentRequestOptions options) {
+        try {
+          return paymentRequest(
+              createJSInteropWrapper(options) as JSPaymentRequestOptions);
+        } catch (error) {
+          throw (error as JSError).toDart;
+        }
+      });
 }

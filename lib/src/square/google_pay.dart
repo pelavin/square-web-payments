@@ -29,15 +29,14 @@ extension type JSGooglePay._(JSPaymentMethod _) implements JSPaymentMethod {
       HTMLDivElement element, JSGooglePayButtonOptions? options);
   external JSPromise<JSBoolean> detach();
   GooglePay get toDart => GooglePay(
-      attach: (element, options) => attach(
-              element,
-              options != null
-                  ? createJSInteropWrapper(options) as JSGooglePayButtonOptions
-                  : null)
-          .toDart,
-      destroy: () => destroy().toDart,
-      detach: () => detach().toDart.then((result) => result.toDart),
-      tokenize: () => tokenize().toDart.then(
-          (tokenResult) => tokenResult.toDart,
-          onError: (error) => throw (error as JSError).toDart));
+      attach: (element, options) => tryCatchToDart(() => attach(
+          element,
+          options != null
+              ? createJSInteropWrapper(options) as JSGooglePayButtonOptions
+              : null)),
+      destroy: () => tryCatchToDart(() => destroy()),
+      detach: () =>
+          tryCatchToDart(() => detach()).then((result) => result.toDart),
+      tokenize: () => tryCatchToDart(() => tokenize())
+          .then((tokenResult) => tokenResult.toDart));
 }
