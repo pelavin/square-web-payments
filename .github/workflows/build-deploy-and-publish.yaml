@@ -36,3 +36,15 @@ jobs:
     steps:
       - uses: actions/deploy-pages@v4
         id: deployment
+  publish:
+    needs: build
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            let pub_token = await core.getIDToken('https://pub.dev')
+            core.exportVariable('PUB_TOKEN', pub_token)
+      - if: startsWith(github.ref, 'refs/tags/v0.0.')
+        run: flutter pub publish --dry-run
