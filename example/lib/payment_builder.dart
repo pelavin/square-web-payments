@@ -18,8 +18,17 @@ class PaymentBuilder<TPaymentMethod extends PaymentMethod>
 
 class _PaymentBuilderState<TPaymentMethod extends PaymentMethod>
     extends State<PaymentBuilder<TPaymentMethod>> {
+  TPaymentMethod? paymentMethod;
   TokenResult? tokenResult;
   Object? error;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.future.then(
+        (paymentMethod) => setState(() => this.paymentMethod = paymentMethod),
+        onError: (error) => setState(() => this.error = error));
+  }
 
   @override
   Widget build(BuildContext context) => Container(
@@ -27,14 +36,12 @@ class _PaymentBuilderState<TPaymentMethod extends PaymentMethod>
       decoration: const BoxDecoration(color: Colors.white),
       padding: const EdgeInsets.all(8),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        FutureBuilder(
-            future: widget.future,
-            builder: (context, snapshot) =>
-                snapshot.connectionState == ConnectionState.done
-                    ? snapshot.hasData
-                        ? widget.builder(snapshot.data!, _tokenize)
-                        : _buildJson(snapshot.error)
-                    : const Center(child: CircularProgressIndicator())),
+        ...(paymentMethod == null && error == null
+            ? [const Center(child: CircularProgressIndicator())]
+            : []),
+        ...(paymentMethod != null
+            ? [widget.builder(paymentMethod!, _tokenize)]
+            : []),
         ...(error != null ? [_buildJson(error)] : []),
         ...(tokenResult != null ? [_buildJson(tokenResult)] : [])
       ]));
@@ -42,8 +49,7 @@ class _PaymentBuilderState<TPaymentMethod extends PaymentMethod>
   @override
   void dispose() {
     super.dispose();
-    widget.future
-        .then((paymentMethod) => paymentMethod.destroy(), onError: (_) => null);
+    paymentMethod?.destroy();
   }
 
   void _tokenize() {
@@ -51,7 +57,7 @@ class _PaymentBuilderState<TPaymentMethod extends PaymentMethod>
       tokenResult = null;
       error = null;
     });
-    widget.future.then((paymentMethod) => paymentMethod.tokenize()).then(
+    paymentMethod?.tokenize().then(
         (tokenResult) => setState(() => this.tokenResult = tokenResult),
         onError: (error) => setState(() => this.error = error));
   }
