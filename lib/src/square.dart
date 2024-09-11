@@ -14,3 +14,6 @@ export 'square/token_details.dart' show TokenDetails;
 export 'square/token_error_details.dart' show TokenErrorDetails;
 export 'square/token_result.dart' show TokenResult;
 export 'square/payment_method.dart' show PaymentMethod;
+export 'square/verify_buyer_details.dart' show VerifyBuyerDetails;
+export 'square/verify_buyer_response_details.dart'
+    show VerifyBuyerResponseDetails;
