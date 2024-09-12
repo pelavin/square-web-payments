@@ -47,8 +47,7 @@ extension type JSPayments._(JSObject _) implements JSObject {
               .then((googlePlay) => googlePlay.toDart),
       paymentRequest: (PaymentRequestOptions options) {
         try {
-          return paymentRequest(
-              createJSInteropWrapper(options) as JSPaymentRequestOptions);
+          return paymentRequest(options.toJS);
         } catch (error) {
           throw (error as JSError).toDart;
         }

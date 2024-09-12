@@ -1,16 +1,12 @@
 import 'dart:js_interop';
+import 'dart:js_interop_unsafe';
 
 import 'line_item.dart';
 
 /// https://developer.squareup.com/reference/sdks/web/payments/objects/PaymentRequestOptions
-@JSExport()
 class PaymentRequestOptions {
-  @JSExport()
   final String countryCode;
-  @JSExport()
   final String currencyCode;
-
-  @JSExport('_total')
   final LineItem total;
 
   const PaymentRequestOptions(
@@ -18,12 +14,23 @@ class PaymentRequestOptions {
       required this.currencyCode,
       required this.total});
 
-  @JSExport('total')
-  JSLineItem get jsTotal => createJSInteropWrapper(total) as JSLineItem;
+  JSPaymentRequestOptions get toJS => JSPaymentRequestOptions(
+      countryCode: countryCode.toJS,
+      currencyCode: currencyCode.toJS,
+      total: total.toJS);
 }
 
 extension type JSPaymentRequestOptions._(JSObject _) implements JSObject {
-  external String get countryCode;
-  external String get currencyCode;
+  JSPaymentRequestOptions(
+      {required JSString countryCode,
+      required JSString currencyCode,
+      required JSLineItem total})
+      : _ = JSObject()
+          ..['countryCode'] = countryCode
+          ..['currencyCode'] = currencyCode
+          ..['total'] = total;
+
+  external JSString get countryCode;
+  external JSString get currencyCode;
   external JSLineItem get total;
 }
