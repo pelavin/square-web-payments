@@ -4,9 +4,6 @@ import 'package:widgetbook/widgetbook.dart';
 
 import 'payment_builder.dart';
 
-final Payments payments =
-    Square.payments('sandbox-sq0idb-negdp6Z5Q7RYeFbAv38m0A', 'L6XCYJM4ZPHRP');
-
 void main() {
   runApp(const WidgetbookApp());
 }
@@ -19,27 +16,44 @@ class WidgetbookApp extends StatelessWidget {
         WidgetbookUseCase(
             name: 'Apple Pay',
             builder: (context) => PaymentBuilder(
-                future: payments.applePay(payments.paymentRequest(
-                    const PaymentRequestOptions(
+                paymentMethodBuilder: (payments) => payments.applePay(
+                    payments.paymentRequest(const PaymentRequestOptions(
                         countryCode: 'US',
                         currencyCode: 'USD',
                         total: LineItem(amount: '1.00', label: 'Total')))),
-                builder: (applePay, tokenize) =>
+                tokenBuilder: (applePay, tokenize) =>
                     ApplePayView(applePay: applePay, onPressed: tokenize))),
         WidgetbookUseCase(
             name: 'Card',
             builder: (context) => PaymentBuilder(
-                future: payments.card(),
-                builder: (card, tokenize) => Column(children: [
+                paymentMethodBuilder: (payments) => payments.card(),
+                tokenBuilder: (card, tokenize) => Column(children: [
                       CardView(card: card),
                       TextButton(
                           onPressed: tokenize, child: const Text('Tokenize'))
-                    ]))),
+                    ]),
+                verifyBuilder: (verify) => Center(
+                    child: TextButton(
+                        onPressed: () => verify(VerifyBuyerDetails(
+                            amount: '1.00',
+                            billingContact: const Contact(
+                                addressLines: ['1600 Pennsylvania Ave NW'],
+                                city: 'Washington',
+                                countryCode: 'US',
+                                email: 'john.doe@example.com',
+                                familyName: 'Doe',
+                                givenName: 'John',
+                                phone: '3214563987',
+                                postalCode: '20500',
+                                state: 'DC'),
+                            currencyCode: 'USD',
+                            intent: 'CHARGE')),
+                        child: const Text('Verify'))))),
         WidgetbookUseCase(
             name: 'Gift Card',
             builder: (context) => PaymentBuilder(
-                future: payments.giftCard(),
-                builder: (giftCard, tokenize) => Column(children: [
+                paymentMethodBuilder: (payments) => payments.giftCard(),
+                tokenBuilder: (giftCard, tokenize) => Column(children: [
                       CardView(card: giftCard),
                       TextButton(
                           onPressed: tokenize, child: const Text('Tokenize'))
@@ -47,12 +61,12 @@ class WidgetbookApp extends StatelessWidget {
         WidgetbookUseCase(
             name: 'Google Pay',
             builder: (context) => PaymentBuilder(
-                future: payments.googlePay(payments.paymentRequest(
-                    const PaymentRequestOptions(
+                paymentMethodBuilder: (payments) => payments.googlePay(
+                    payments.paymentRequest(const PaymentRequestOptions(
                         countryCode: 'US',
                         currencyCode: 'USD',
                         total: LineItem(amount: '1.00', label: 'Total')))),
-                builder: (googlePay, tokenize) => GooglePayView(
+                tokenBuilder: (googlePay, tokenize) => GooglePayView(
                     googlePay: googlePay,
                     googlePayButtonOptions:
                         const GooglePayButtonOptions(buttonSizeMode: 'fill'),
