@@ -1,23 +1,32 @@
 import 'dart:js_interop';
-
-import 'line_item.dart';
+import 'dart:js_interop_unsafe';
 
 /// https://developer.squareup.com/reference/sdks/web/payments/objects/GooglePayButtonOptions
-@JSExport()
 class GooglePayButtonOptions {
-  @JSExport()
   final String? buttonColor;
-  @JSExport()
   final String? buttonSizeMode;
-  @JSExport()
   final String? buttonType;
 
   const GooglePayButtonOptions(
       {this.buttonColor, this.buttonSizeMode, this.buttonType});
+
+  JSGooglePayButtonOptions get toJS => JSGooglePayButtonOptions(
+      buttonColor: buttonColor?.toJS,
+      buttonSizeMode: buttonSizeMode?.toJS,
+      buttonType: buttonType?.toJS);
 }
 
 extension type JSGooglePayButtonOptions._(JSObject _) implements JSObject {
-  external String get buttonColor;
-  external String get buttonSizeMode;
-  external JSLineItem get buttonType;
+  JSGooglePayButtonOptions(
+      {required JSString? buttonColor,
+      required JSString? buttonSizeMode,
+      required JSString? buttonType})
+      : _ = JSObject()
+          ..['buttonColor'] = buttonColor
+          ..['buttonSizeMode'] = buttonSizeMode
+          ..['buttonType'] = buttonType;
+
+  external JSString? get buttonColor;
+  external JSString? get buttonSizeMode;
+  external JSString? get buttonType;
 }
