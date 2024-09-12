@@ -3,7 +3,7 @@ import 'dart:js_interop_unsafe';
 
 /// https://developer.squareup.com/reference/sdks/web/payments/objects/Contact
 class Contact {
-  final List<String> addressLines;
+  final List<String>? addressLines;
   final String? city;
   final String? countryCode;
   final String? email;
@@ -14,19 +14,21 @@ class Contact {
   final String? state;
 
   const Contact(
-      {required this.addressLines,
-      required this.city,
-      required this.countryCode,
-      required this.email,
-      required this.familyName,
-      required this.givenName,
-      required this.phone,
-      required this.postalCode,
-      required this.state});
+      {this.addressLines,
+      this.city,
+      this.countryCode,
+      this.email,
+      this.familyName,
+      this.givenName,
+      this.phone,
+      this.postalCode,
+      this.state});
 
   JSContact get toJS => JSContact(
-      addressLines:
-          addressLines.map((addressLine) => addressLine.toJS).toList().toJS,
+      addressLines: (addressLines ?? [])
+          .map((addressLine) => addressLine.toJS)
+          .toList()
+          .toJS,
       city: city?.toJS,
       countryCode: countryCode?.toJS,
       email: email?.toJS,
