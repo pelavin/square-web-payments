@@ -61,3 +61,4 @@
 ## 0.0.15
 
 * Using Chrome as default debug device
+* Fixing issue with card input fields unable to obtain focus from flutter text fields on Safari (iOS) and Chrome
