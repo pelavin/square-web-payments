@@ -77,8 +77,7 @@ class WidgetbookApp extends StatelessWidget {
             focusNode.requestFocus();
             tokenize();
           },
-          child: const Text('Tokenize')),
-      const TextField()
+          child: const Text('Tokenize'))
     ]);
   }
 }
