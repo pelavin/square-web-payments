@@ -21,6 +21,7 @@ class PaymentHtmlView extends StatefulWidget {
 
 class _PaymentHtmlViewState extends State<PaymentHtmlView> {
   late FocusNode _focusNode;
+  bool _iframeFocused = false;
   bool _attached = false;
   double _height = 1;
 
@@ -28,6 +29,12 @@ class _PaymentHtmlViewState extends State<PaymentHtmlView> {
   void initState() {
     super.initState();
     _focusNode = FocusNode();
+    _focusNode.addListener(() async {
+      if (_iframeFocused && !_focusNode.hasFocus) {
+        await Future.delayed(Duration.zero);
+        (document.getElementById('fake_input') as HTMLElement).focus();
+      }
+    });
   }
 
   @override
@@ -68,9 +75,11 @@ class _PaymentHtmlViewState extends State<PaymentHtmlView> {
 
   void _observeFocusClass(HTMLDivElement element) => MutationObserver(
               (JSArray<MutationRecord> records, MutationObserver observer) {
-        if (!_focusNode.hasFocus && element.classList.contains('sq-focus')) {
+        final iframeFocused = element.classList.contains('sq-focus');
+        if (!_focusNode.hasFocus && !_iframeFocused && iframeFocused) {
           _focusNode.requestFocus();
         }
+        setState(() => _iframeFocused = iframeFocused);
       }.toJS)
           .observe(
               element,
