@@ -59,3 +59,5 @@
 * Adding support for Strong Customer Authentication
 
 ## 0.0.15
+
+* Using Chrome as default debug device

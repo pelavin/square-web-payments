@@ -7,10 +7,10 @@
       "args": [
         "run",
         "-d",
-        "web-server"
+        "chrome"
       ],
       "problemMatcher": [],
-      "label": "flutter: flutter run -d web-server",
+      "label": "flutter: flutter run -d chrome",
       "options": {
         "cwd": "${workspaceFolder}/example"
       }
@@ -21,11 +21,11 @@
       "args": [
         "run",
         "-d",
-        "web-server",
+        "chrome",
         "--release"
       ],
       "problemMatcher": [],
-      "label": "flutter: flutter run -d web-server --release",
+      "label": "flutter: flutter run -d chrome --release",
       "options": {
         "cwd": "${workspaceFolder}/example"
       }
