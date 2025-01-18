@@ -30,7 +30,8 @@ class WidgetbookApp extends StatelessWidget {
                 tokenBuilder: (card, tokenize) => Column(children: [
                       CardView(card: card),
                       TextButton(
-                          onPressed: tokenize, child: const Text('Tokenize'))
+                          onPressed: tokenize, child: const Text('Tokenize')),
+                      const TextField()
                     ]),
                 verifyBuilder: (verify) => Center(
                     child: TextButton(
@@ -56,7 +57,8 @@ class WidgetbookApp extends StatelessWidget {
                 tokenBuilder: (giftCard, tokenize) => Column(children: [
                       CardView(card: giftCard),
                       TextButton(
-                          onPressed: tokenize, child: const Text('Tokenize'))
+                          onPressed: tokenize, child: const Text('Tokenize')),
+                      const TextField()
                     ]))),
         WidgetbookUseCase(
             name: 'Google Pay',
