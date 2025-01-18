@@ -57,3 +57,5 @@
 ## 0.0.14
 
 * Adding support for Strong Customer Authentication
+
+## 0.0.15
