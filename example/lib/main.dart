@@ -27,11 +27,7 @@ class WidgetbookApp extends StatelessWidget {
             name: 'Card',
             builder: (context) => PaymentBuilder(
                 paymentMethodBuilder: (payments) => payments.card(),
-                tokenBuilder: (card, tokenize) => Column(children: [
-                      CardView(card: card),
-                      TextButton(
-                          onPressed: tokenize, child: const Text('Tokenize'))
-                    ]),
+                tokenBuilder: _buildCardView,
                 verifyBuilder: (verify) => Center(
                     child: TextButton(
                         onPressed: () => verify(VerifyBuyerDetails(
@@ -53,11 +49,7 @@ class WidgetbookApp extends StatelessWidget {
             name: 'Gift Card',
             builder: (context) => PaymentBuilder(
                 paymentMethodBuilder: (payments) => payments.giftCard(),
-                tokenBuilder: (giftCard, tokenize) => Column(children: [
-                      CardView(card: giftCard),
-                      TextButton(
-                          onPressed: tokenize, child: const Text('Tokenize'))
-                    ]))),
+                tokenBuilder: _buildCardView)),
         WidgetbookUseCase(
             name: 'Google Pay',
             builder: (context) => PaymentBuilder(
@@ -72,4 +64,20 @@ class WidgetbookApp extends StatelessWidget {
                         const GooglePayButtonOptions(buttonSizeMode: 'fill'),
                     onPressed: tokenize))),
       ]);
+
+  Widget _buildCardView(PaymentCard card, void Function() tokenize) {
+    // Explicitly request focus on the button to remove keyboard focus from payment input field
+    // https://github.com/pelavin/square-web-payments/issues/1
+    final focusNode = FocusNode();
+    return Column(children: [
+      CardView(card: card),
+      TextButton(
+          focusNode: focusNode,
+          onPressed: () {
+            focusNode.requestFocus();
+            tokenize();
+          },
+          child: const Text('Tokenize'))
+    ]);
+  }
 }
